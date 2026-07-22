@@ -2,7 +2,9 @@ import './style.css';
 import { icon } from './icons.js';
 
 const API = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/$/, '');
-const slug = location.pathname.split('/').filter(Boolean)[0]?.toLowerCase() || 'clickup';
+const pathSegments = location.pathname.split('/').filter(Boolean);
+const repositoryBase = String(import.meta.env.BASE_URL || '/').split('/').filter(Boolean)[0]?.toLowerCase();
+const slug = (pathSegments[0]?.toLowerCase() === repositoryBase ? pathSegments[1] : pathSegments[0])?.toLowerCase() || 'clickup';
 const state = { store: null, cart: JSON.parse(localStorage.getItem(`cart:${slug}`) || '{}'), token: sessionStorage.getItem(`token:${slug}`) || '', user: JSON.parse(sessionStorage.getItem(`user:${slug}`) || 'null'), category: 'Todos', query: '' };
 const $ = selector => document.querySelector(selector);
 const money = value => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
