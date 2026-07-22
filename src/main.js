@@ -56,7 +56,7 @@ function renderApp() {
   $('#login')?.addEventListener('click', () => openLogin()); $('#account')?.addEventListener('click', openAccount); $('#payment-data')?.addEventListener('click', openPaymentData); $('#orders-menu')?.addEventListener('click', showOrders); $('#cart').onclick = openCart; $('#header-search').oninput = e => { state.query = e.target.value; renderProducts(); };
   const userMenu = $('#user-menu');
   const setUserMenu = open => { if (!userMenu) return; userMenu.hidden = !open; $('#user-menu-button')?.setAttribute('aria-expanded', String(open)); };
-  if (userMenu) { const close = document.createElement('button'); close.type = 'button'; close.className = 'user-menu-close'; close.setAttribute('aria-label', 'Fechar menu'); close.textContent = '×'; close.onclick = () => setUserMenu(false); userMenu.prepend(close); }
+  if (userMenu) { const close = document.createElement('button'); close.type = 'button'; close.className = 'user-menu-close'; close.setAttribute('aria-label', 'Fechar menu'); close.textContent = '×'; close.onclick = () => setUserMenu(false); const header = document.createElement('div'); header.className = 'user-menu-header'; header.append(close, userMenu.querySelector(':scope > strong'), userMenu.querySelector(':scope > small')); userMenu.prepend(header); }
   $('#user-menu-button')?.addEventListener('click', () => setUserMenu(userMenu.hidden));
   document.querySelectorAll('[data-corporate]').forEach(button => button.onclick = () => { setUserMenu(false); openCorporate(button.dataset.corporate); });
   $('#logout-menu')?.addEventListener('click', logoutUser);
