@@ -1,9 +1,9 @@
 services:
   - type: web
     name: lojasite-front
-    runtime: static
+    runtime: node
     buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
+    startCommand: node server.js
     envVars:
       - key: NODE_VERSION
         value: 20
@@ -11,7 +11,3 @@ services:
         value: https://lojasite-back.onrender.com
       - key: VITE_BASE_PATH
         value: /
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
