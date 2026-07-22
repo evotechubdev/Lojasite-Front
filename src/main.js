@@ -49,7 +49,7 @@ function modal(content, className='') { $('#modal-root').innerHTML = `<div class
 function closeModal() { $('#modal-root').innerHTML = ''; }
 
 function developerFooter() {
-  return `<div class="developer-credit"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span><strong>© EVOTECHUB 2026 - Todos os direitos reservados.</strong><a data-support-email hidden></a></span></div>`;
+  return `<div class="developer-credit"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span><strong>© EVOTECHUB 2026 - Todos os direitos reservados.</strong></span></div>`;
 }
 
 async function loadPublicContacts() {
@@ -72,7 +72,7 @@ function renderPortal() {
   <section class="portal-contact" id="contato"><div><span class="kicker">SUPORTE E DESENVOLVIMENTO</span><h2>Precisa de ajuda?</h2><p>Fale com o suporte técnico para tirar dúvidas sobre acesso e utilização do sistema.</p></div><a data-support-email hidden></a></section>
   <section class="acquire-store"><div><span class="kicker">COMECE A VENDER ONLINE</span><h2>Quero adquirir minha LojaSite</h2><p>Tenha sua própria loja online com endereço exclusivo, catálogo, estoque e vendas integradas ao seu atendimento.</p></div><a class="whatsapp-button" data-whatsapp hidden>Falar pelo WhatsApp <span>↗</span></a></section>
   <section class="portal-access-section" id="acessar"><span class="kicker">ACESSO À SUA LOJA</span><h2>Informe o sufixo do seu link</h2><form id="portal-access-form"><span>lojasite.com.br/</span><input name="suffix" placeholder="sua_organizacao" pattern="[a-zA-Z0-9_-]+" required><button type="submit">Acessar</button></form><p>O sufixo é fornecido pela sua organização.</p></section></main>
-  <footer class="portal-simple-footer"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span>© EVOTECHUB 2026 - Todos os direitos reservados.</span><a data-support-email hidden></a></footer></div>`;
+  <footer class="portal-simple-footer"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span>© EVOTECHUB 2026 - Todos os direitos reservados.</span></footer></div>`;
   $('#portal-access-form').onsubmit = event => { event.preventDefault(); const suffix = new FormData(event.currentTarget).get('suffix').trim().toLowerCase(); location.href = `${import.meta.env.BASE_URL}${encodeURIComponent(suffix)}`; };
   loadPublicContacts();
 }
