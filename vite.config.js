@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { copyFileSync, cpSync, existsSync, mkdirSync } from 'node:fs';
+import { copyFileSync, cpSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
@@ -12,8 +12,6 @@ export default defineConfig({
     name: 'github-pages-spa-fallback',
     closeBundle() {
       copyFileSync(`${root}dist/index.html`, `${root}dist/404.html`);
-      mkdirSync(`${root}dist/evotechub`, { recursive: true });
-      copyFileSync(`${root}dist/index.html`, `${root}dist/evotechub/index.html`);
       if (existsSync(`${root}imagens`)) cpSync(`${root}imagens`, `${root}dist/imagens`, { recursive: true });
     }
   }]
