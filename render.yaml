@@ -4,6 +4,8 @@ services:
     runtime: node
     buildCommand: npm ci && npm run build
     startCommand: node server.js
+    domains:
+      - lojasite.com.br
     envVars:
       - key: NODE_VERSION
         value: 20
