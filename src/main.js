@@ -54,8 +54,11 @@ function renderApp() {
   const logoImage = $('#store-logo-image'); logoImage.onerror = () => { if (!logoImage.dataset.jpgTried) { logoImage.dataset.jpgTried = 'true'; logoImage.src = `${import.meta.env.BASE_URL}imagens/${store.id}/logo.jpg`; return; } logoImage.hidden = true; };
   const userPhoto = $('[data-user-photo]'); if (userPhoto) userPhoto.onerror = () => { userPhoto.parentElement.innerHTML = `<span>${userInitial}</span>`; };
   $('#login')?.addEventListener('click', () => openLogin()); $('#account')?.addEventListener('click', openAccount); $('#payment-data')?.addEventListener('click', openPaymentData); $('#orders-menu')?.addEventListener('click', showOrders); $('#cart').onclick = openCart; $('#header-search').oninput = e => { state.query = e.target.value; renderProducts(); };
-  const userMenu = $('#user-menu'); $('#user-menu-button')?.addEventListener('click', event => { userMenu.hidden = !userMenu.hidden; event.currentTarget.setAttribute('aria-expanded', String(!userMenu.hidden)); });
-  document.querySelectorAll('[data-corporate]').forEach(button => button.onclick = () => openCorporate(button.dataset.corporate));
+  const userMenu = $('#user-menu');
+  const setUserMenu = open => { if (!userMenu) return; userMenu.hidden = !open; $('#user-menu-button')?.setAttribute('aria-expanded', String(open)); };
+  if (userMenu) { const close = document.createElement('button'); close.type = 'button'; close.className = 'user-menu-close'; close.setAttribute('aria-label', 'Fechar menu'); close.textContent = '×'; close.onclick = () => setUserMenu(false); userMenu.prepend(close); }
+  $('#user-menu-button')?.addEventListener('click', () => setUserMenu(userMenu.hidden));
+  document.querySelectorAll('[data-corporate]').forEach(button => button.onclick = () => { setUserMenu(false); openCorporate(button.dataset.corporate); });
   $('#logout-menu')?.addEventListener('click', logoutUser);
   $('#developer-contact')?.addEventListener('click', openDeveloperContact);
   document.querySelectorAll('[data-category]').forEach(btn => btn.onclick = () => { state.category = btn.dataset.category; document.querySelectorAll('[data-category]').forEach(x => x.classList.toggle('active', x===btn)); renderProducts(); });
