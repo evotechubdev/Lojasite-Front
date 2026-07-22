@@ -62,6 +62,7 @@ function renderApp() {
   $('#logout-menu')?.addEventListener('click', logoutUser);
   $('#developer-contact')?.addEventListener('click', openDeveloperContact);
   document.querySelectorAll('[data-category]').forEach(btn => btn.onclick = () => { state.category = btn.dataset.category; document.querySelectorAll('[data-category]').forEach(x => x.classList.toggle('active', x===btn)); renderProducts(); });
+  if (staff) $('#cart')?.remove(); else if ($('#cart svg')) $('#cart svg').outerHTML = icon('cart', 22);
   loadPublicContacts();
 }
 function modal(content, className='') { $('#modal-root').innerHTML = `<div class="modal-overlay"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
