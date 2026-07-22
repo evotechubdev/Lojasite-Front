@@ -1,7 +1,10 @@
 import './style.css';
 import { icon } from './icons.js';
 
-const API = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/$/, '');
+const DEFAULT_API = import.meta.env.DEV
+  ? 'http://localhost:3000'
+  : 'https://lojasite-back.onrender.com';
+const API = (import.meta.env.VITE_API_URL || DEFAULT_API).replace(/\/$/, '');
 const pathSegments = location.pathname.split('/').filter(Boolean);
 const repositoryBase = String(import.meta.env.BASE_URL || '/').split('/').filter(Boolean)[0]?.toLowerCase();
 const slug = (pathSegments[0]?.toLowerCase() === repositoryBase ? pathSegments[1] : pathSegments[0])?.toLowerCase() || '';
