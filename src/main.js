@@ -47,18 +47,32 @@ function renderApp() {
   <section class="benefits"><div><b>↗</b><span><strong>Envio rápido</strong><small>Para todo o Brasil</small></span></div><div><b>◇</b><span><strong>Compra protegida</strong><small>Pagamento seguro</small></span></div><div><b>↺</b><span><strong>Troca fácil</strong><small>Até 7 dias</small></span></div><div><b>♡</b><span><strong>Atendimento</strong><small>Feito por pessoas</small></span></div></section>
   <section class="catalog" id="produtos"><div class="section-head"><div><span class="kicker">NOSSA SELEÇÃO</span><h2>Produtos em destaque</h2></div></div><div class="filters">${categories.map((c,i)=>`<button data-category="${escapeHtml(c)}" class="${i===0?'active':''}">${escapeHtml(c)}</button>`).join('')}</div><div class="product-grid" id="products"></div></section>
   <section class="about" id="sobre"><span class="kicker">COMPRE COM CONFIANÇA</span><h2>Uma experiência simples do começo ao fim.</h2><p>Produtos escolhidos com cuidado, pagamento dentro da loja e acompanhamento dos seus pedidos em um só lugar.</p></section></main>
-  <footer class="portal-simple-footer organization-footer"><span class="footer-system-logo"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"></span><span class="footer-developer"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span>© EVOTECHUB 2026 - Todos os direitos reservados.</span></span></footer>`;
+  <footer class="portal-simple-footer organization-footer"><span class="footer-system-logo"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"></span><button class="footer-developer" id="developer-contact" type="button" aria-label="Abrir contatos de suporte da EVOTECHUB"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span>© EVOTECHUB 2026 - Todos os direitos reservados.</span></button></footer>`;
   updateCartBadge(); renderProducts();
   const logoImage = $('#store-logo-image'); logoImage.onerror = () => { if (!logoImage.dataset.jpgTried) { logoImage.dataset.jpgTried = 'true'; logoImage.src = `${import.meta.env.BASE_URL}imagens/${store.id}/logo.jpg`; return; } logoImage.hidden = true; };
   $('#login')?.addEventListener('click', openLogin); $('#account')?.addEventListener('click', openAccount); $('#orders-menu')?.addEventListener('click', showOrders); $('#cart').onclick = openCart; $('#header-search').oninput = e => { state.query = e.target.value; renderProducts(); };
   const userMenu = $('#user-menu'); $('#user-menu-button')?.addEventListener('click', event => { userMenu.hidden = !userMenu.hidden; event.currentTarget.setAttribute('aria-expanded', String(!userMenu.hidden)); });
   document.querySelectorAll('[data-corporate]').forEach(button => button.onclick = () => openCorporate(button.dataset.corporate));
   $('#logout-menu')?.addEventListener('click', logoutUser);
+  $('#developer-contact')?.addEventListener('click', openDeveloperContact);
   document.querySelectorAll('[data-category]').forEach(btn => btn.onclick = () => { state.category = btn.dataset.category; document.querySelectorAll('[data-category]').forEach(x => x.classList.toggle('active', x===btn)); renderProducts(); });
   loadPublicContacts();
 }
 function modal(content, className='') { $('#modal-root').innerHTML = `<div class="modal-overlay"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
 function closeModal() { $('#modal-root').innerHTML = ''; }
+
+async function openDeveloperContact() {
+  try {
+    const contact = await api('/api/public/contact');
+    const email = contact.supportEmail
+      ? `<a class="contact-action" href="mailto:${escapeHtml(contact.supportEmail)}">${escapeHtml(contact.supportEmail)}</a>`
+      : '<span class="muted">E-mail indisponível</span>';
+    const whatsapp = contact.supportWhatsapp
+      ? `<a class="contact-action whatsapp" href="https://wa.me/${contact.supportWhatsapp}" target="_blank" rel="noopener">Falar com o suporte pelo WhatsApp</a>`
+      : '<span class="muted">WhatsApp indisponível</span>';
+    modal(`<div class="developer-contact-modal"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span class="kicker">SUPORTE DAS LOJAS</span><h2>Fale com a EVOTECHUB</h2><div class="developer-contact-actions">${email}${whatsapp}</div></div>`, 'developer-modal');
+  } catch (error) { toast(error.message, 'error'); }
+}
 
 async function loadPublicContacts() {
   try {
