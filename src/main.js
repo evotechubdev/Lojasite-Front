@@ -38,14 +38,18 @@ function renderApp() {
   <section class="benefits"><div><b>↗</b><span><strong>Envio rápido</strong><small>Para todo o Brasil</small></span></div><div><b>◇</b><span><strong>Compra protegida</strong><small>Pagamento seguro</small></span></div><div><b>↺</b><span><strong>Troca fácil</strong><small>Até 7 dias</small></span></div><div><b>♡</b><span><strong>Atendimento</strong><small>Feito por pessoas</small></span></div></section>
   <section class="catalog" id="produtos"><div class="section-head"><div><span class="kicker">NOSSA SELEÇÃO</span><h2>Produtos em destaque</h2></div></div><div class="filters">${categories.map((c,i)=>`<button data-category="${escapeHtml(c)}" class="${i===0?'active':''}">${escapeHtml(c)}</button>`).join('')}</div><div class="product-grid" id="products"></div></section>
   <section class="about" id="sobre"><span class="kicker">COMPRE COM CONFIANÇA</span><h2>Uma experiência simples do começo ao fim.</h2><p>Produtos escolhidos com cuidado, pagamento dentro da loja e acompanhamento dos seus pedidos em um só lugar.</p></section></main>
-  <footer><div class="logo inverse"><span>${store.name.split(' ').map(x=>x[0]).join('').slice(0,2)}</span><strong>${escapeHtml(store.name)}</strong></div><p>© ${new Date().getFullYear()} ${escapeHtml(store.name)}. Todos os direitos reservados.</p></footer>`;
+  <footer><div class="logo inverse"><span>${store.name.split(' ').map(x=>x[0]).join('').slice(0,2)}</span><strong>${escapeHtml(store.name)}</strong></div><p>© ${new Date().getFullYear()} ${escapeHtml(store.name)}. Todos os direitos reservados.</p>${developerFooter()}</footer>`;
   updateCartBadge(); renderProducts();
-  const logoImage = $('#store-logo-image'); logoImage.onerror = () => { logoImage.hidden = true; $('.logo-fallback').hidden = false; }; logoImage.onload = () => { $('.logo-fallback').hidden = true; };
+  const logoImage = $('#store-logo-image'); logoImage.onerror = () => { if (!logoImage.dataset.jpgTried) { logoImage.dataset.jpgTried = 'true'; logoImage.src = `${import.meta.env.BASE_URL}imagens/${store.id}/logo.jpg`; return; } logoImage.hidden = true; $('.logo-fallback').hidden = false; }; logoImage.onload = () => { $('.logo-fallback').hidden = true; };
   $('#login')?.addEventListener('click', openLogin); $('#account')?.addEventListener('click', openAccount); $('#cart').onclick = openCart; $('#header-search').oninput = e => { state.query = e.target.value; renderProducts(); };
   document.querySelectorAll('[data-category]').forEach(btn => btn.onclick = () => { state.category = btn.dataset.category; document.querySelectorAll('[data-category]').forEach(x => x.classList.toggle('active', x===btn)); renderProducts(); });
 }
 function modal(content, className='') { $('#modal-root').innerHTML = `<div class="modal-overlay"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
 function closeModal() { $('#modal-root').innerHTML = ''; }
+
+function developerFooter() {
+  return `<a class="developer-credit" href="mailto:thiago07cb2@gmail.com" aria-label="Contato com o desenvolvedor"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo do desenvolvedor"><span><small>DESENVOLVIDO POR</small><strong>Thiago Carvalho · EVOTECHUB</strong><em>thiago07cb2@gmail.com</em></span></a>`;
+}
 
 function renderPortal() {
   document.title = 'LojaSite · Lojas online para organizações';
@@ -57,7 +61,7 @@ function renderPortal() {
   <section class="portal-section portal-manual" id="manual"><div class="portal-title"><span class="kicker">MANUAL RÁPIDO</span><h2>Comece em poucos passos.</h2></div><div class="manual-grid"><div><h3>Para clientes</h3><ol><li>Acesse o link fornecido pela organização.</li><li>Escolha os produtos e abra o carrinho.</li><li>Entre com seu login e senha.</li><li>Informe os dados e selecione PIX ou cartão.</li><li>Acompanhe o pedido em “Minha conta”.</li></ol></div><div><h3>Endereço personalizado</h3><p>O sufixo é escolhido em comum acordo com cada organização. Por exemplo, “Lojão da Noruega” poderia usar:</p><div class="link-example">lojasite.com.br/<strong>lojao_da_noruega</strong></div><p>Use sempre o endereço oficial recebido. Por privacidade, o portal não divulga a relação de organizações atendidas.</p></div></div></section>
   <section class="portal-contact" id="contato"><div><span class="kicker">SUPORTE E DESENVOLVIMENTO</span><h2>Precisa de ajuda?</h2><p>Entre em contato para suporte, implantação de uma organização ou informações sobre o sistema.</p></div><a href="mailto:thiago07cb2@gmail.com">thiago07cb2@gmail.com <span>↗</span></a></section>
   <section class="portal-access-section" id="acessar"><span class="kicker">ACESSO À SUA LOJA</span><h2>Informe o sufixo do seu link</h2><form id="portal-access-form"><span>lojasite.com.br/</span><input name="suffix" placeholder="sua_organizacao" pattern="[a-zA-Z0-9_-]+" required><button type="submit">Acessar</button></form><p>O sufixo é fornecido pela sua organização.</p></section></main>
-  <footer><div class="logo inverse portal-logo"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"><strong>LojaSite</strong></div><p>© ${new Date().getFullYear()} EVOTECHUB. Todos os direitos reservados.</p></footer></div>`;
+  <footer><div class="logo inverse portal-logo"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"><strong>LojaSite</strong></div><p>© ${new Date().getFullYear()} EVOTECHUB. Todos os direitos reservados.</p>${developerFooter()}</footer></div>`;
   $('#portal-access-form').onsubmit = event => { event.preventDefault(); const suffix = new FormData(event.currentTarget).get('suffix').trim().toLowerCase(); location.href = `${import.meta.env.BASE_URL}${encodeURIComponent(suffix)}`; };
 }
 function openLogin(next) {
