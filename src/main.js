@@ -121,8 +121,12 @@ async function corporateProducts() { const data = await api(`/api/stores/${slug}
 function parseBrazilianPrice(value) { const normalized=String(value||'').trim().replace(/\s/g,'').replace(/\./g,'').replace(',','.'); return Number(normalized); }
 function formatBrazilianPriceInput(input) { const value=parseBrazilianPrice(input.value); input.value=Number.isFinite(value)?value.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):''; }
 function renderCorporateWorkspace(title, content) {
-  $('#app').innerHTML=`<div class="corporate-workspace"><header><button id="workspace-back" type="button">← Voltar para a loja</button><div><span class="kicker">ÁREA CORPORATIVA</span><h1>${escapeHtml(title)}</h1></div><div class="workspace-user"><strong>${escapeHtml(state.user.name)}</strong><small>${escapeHtml(state.user.cargo||'')}</small></div></header><main>${content}</main></div>`;
+  renderApp();
+  const main=$('#app > main');
+  main.className='corporate-workspace';
+  main.innerHTML=`<section class="workspace-title"><button id="workspace-back" type="button">← Voltar para a loja</button><div><span class="kicker">ÁREA CORPORATIVA</span><h1>${escapeHtml(title)}</h1></div></section><div class="workspace-content">${content}</div>`;
   $('#workspace-back').onclick=renderApp;
+  $('#header-search').oninput=event=>{state.query=event.target.value;renderApp();};
   scrollTo({top:0,behavior:'smooth'});
 }
 async function openCorporate(page) {
