@@ -8,7 +8,7 @@ const API = (import.meta.env.VITE_API_URL || DEFAULT_API).replace(/\/$/, '');
 const pathSegments = location.pathname.split('/').filter(Boolean);
 const repositoryBase = String(import.meta.env.BASE_URL || '/').split('/').filter(Boolean)[0]?.toLowerCase();
 const slug = (pathSegments[0]?.toLowerCase() === repositoryBase ? pathSegments[1] : pathSegments[0])?.toLowerCase() || '';
-const state = { store: null, cart: JSON.parse(localStorage.getItem(`cart:${slug}`) || '{}'), token: sessionStorage.getItem(`token:${slug}`) || '', user: JSON.parse(sessionStorage.getItem(`user:${slug}`) || 'null'), category: 'Todos', query: '' };
+const state = { store: null, cart: JSON.parse(localStorage.getItem(`cart:${slug}`) || '{}'), token: sessionStorage.getItem(`token:${slug}`) || '', user: JSON.parse(sessionStorage.getItem(`user:${slug}`) || 'null'), category: 'Todos', query: '', productCarouselTimer: null };
 const $ = selector => document.querySelector(selector);
 const money = value => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 const escapeHtml = value => { const el = document.createElement('span'); el.textContent = String(value ?? ''); return el.innerHTML; };
@@ -25,13 +25,27 @@ function total() { return cartItems().reduce((sum, item) => sum + item.price * i
 function toast(message, type='ok') { const el = document.createElement('div'); el.className = `toast ${type}`; el.textContent = message; $('#toast-root').append(el); setTimeout(() => el.remove(), 3200); }
 
 function productCard(product) {
-  return `<article class="product-card"><div class="product-art" style="--art:${product.color}"><span class="product-tag">${escapeHtml(product.category)}</span>${product.imageUrl ? `<img src="${escapeHtml(product.imageUrl)}" alt="${escapeHtml(product.name)}" loading="lazy">` : icon(product.icon, 92)}</div><div class="product-info"><h3>${escapeHtml(product.name)}</h3><p>${escapeHtml(product.description)}</p><div class="product-buy"><div>${product.oldPrice ? `<s>${money(product.oldPrice)}</s>` : ''}<strong>${money(product.price)}</strong></div><button class="add" data-add="${product.id}" aria-label="Adicionar ${escapeHtml(product.name)}">${icon('bag',20)}<span>Adicionar</span></button></div></div></article>`;
+  const description=String(product.description||'');
+  const descriptionElement=description.length>90?`<button class="product-description expandable" data-product-description="${escapeHtml(product.id)}" type="button" aria-label="Ler descrição completa de ${escapeHtml(product.name)}">${escapeHtml(description)}</button>`:`<p class="product-description">${escapeHtml(description)}</p>`;
+  return `<article class="product-card"><div class="product-art" style="--art:${product.color}"><span class="product-tag">${escapeHtml(product.category)}</span>${product.imageUrl ? `<img src="${escapeHtml(product.imageUrl)}" alt="${escapeHtml(product.name)}" loading="lazy">` : icon(product.icon, 72)}</div><div class="product-info"><h3>${escapeHtml(product.name)}</h3>${descriptionElement}<div class="product-buy"><div>${product.oldPrice ? `<s>${money(product.oldPrice)}</s>` : ''}<strong>${money(product.price)}</strong></div><button class="add" data-add="${product.id}" aria-label="Adicionar ${escapeHtml(product.name)}">${icon('bag',20)}<span>Adicionar</span></button></div></div></article>`;
 }
 function renderProducts() {
+  clearInterval(state.productCarouselTimer);
   const products = state.store.products.filter(p => (state.category === 'Todos' || p.category === state.category) && `${p.name} ${p.description}`.toLowerCase().includes(state.query.toLowerCase()));
   $('#products').innerHTML = products.length ? products.map(productCard).join('') : '<div class="empty"><h3>Nenhum produto encontrado</h3><p>Tente outro termo ou categoria.</p></div>';
   document.querySelectorAll('[data-add]').forEach(btn => btn.onclick = () => { state.cart[btn.dataset.add] = (state.cart[btn.dataset.add] || 0) + 1; saveCart(); toast('Produto adicionado ao carrinho.'); btn.classList.add('added'); setTimeout(() => btn.classList.remove('added'), 500); });
+  document.querySelectorAll('[data-product-description]').forEach(button=>button.onclick=()=>{const product=state.store.products.find(item=>item.id===button.dataset.productDescription);if(product)openProductDescription(product);});
+  requestAnimationFrame(startProductCarousel);
 }
+function startProductCarousel(){
+  const carousel=$('#products');
+  if(!carousel||carousel.scrollHeight<=carousel.clientHeight+2)return;
+  const start=()=>{clearInterval(state.productCarouselTimer);state.productCarouselTimer=setInterval(()=>{if(!carousel.isConnected)return clearInterval(state.productCarouselTimer);const firstCard=carousel.querySelector('.product-card');const step=(firstCard?.offsetHeight||280)+24;const atEnd=carousel.scrollTop+carousel.clientHeight>=carousel.scrollHeight-8;carousel.scrollTo({top:atEnd?0:carousel.scrollTop+step,behavior:'smooth'});},3200);};
+  const pause=()=>clearInterval(state.productCarouselTimer);
+  carousel.addEventListener('mouseenter',pause);carousel.addEventListener('mouseleave',start);carousel.addEventListener('touchstart',pause,{passive:true});carousel.addEventListener('touchend',start,{passive:true});
+  start();
+}
+function openProductDescription(product){modal(`<span class="kicker">${escapeHtml(product.category)}</span><h2>${escapeHtml(product.name)}</h2><div class="description-content">${escapeHtml(product.description)}</div>`,'description-modal');}
 function updateCartBadge() { const count = Object.values(state.cart).reduce((a,b) => a+b, 0); const el = $('#cart-count'); if (el) { el.textContent = count; el.hidden = count === 0; } }
 function renderApp() {
   const store = state.store; document.title = `${store.name} · Loja online`; document.documentElement.style.setProperty('--primary', store.theme.primary); document.documentElement.style.setProperty('--accent', store.theme.accent);
@@ -46,8 +60,8 @@ function renderApp() {
     : `<div class="hero-visual"><div class="orb one"></div><div class="orb two"></div><div class="hero-card front empty-hero-card"><strong>Catálogo em preparação</strong><small>Novos produtos serão publicados em breve.</small></div></div>`;
   $('#app').innerHTML = `<header class="header store-header"><a class="logo store-logo store-logo-only" href="${import.meta.env.BASE_URL}${slug}" aria-label="${escapeHtml(store.name)}"><img id="store-logo-image" src="${import.meta.env.BASE_URL}imagens/${store.id}/logo.png" alt="Logo ${escapeHtml(store.name)}"></a><label class="header-search">⌕<input id="header-search" placeholder="Pesquisar produtos" aria-label="Pesquisar produtos"></label><div class="header-actions">${state.user ? `<div class="user-menu-wrap"><button class="logged-user" id="user-menu-button" aria-label="Abrir menu de ${escapeHtml(state.user.name)}" aria-expanded="false"><span class="user-avatar">${userAvatar}</span><span class="logged-user-name">${escapeHtml(state.user.name)}</span><b>⋮</b></button><nav class="user-menu" id="user-menu" hidden><strong>${escapeHtml(state.user.name)}</strong><small>${escapeHtml(state.user.cargo || '')}</small>${staff ? `<button data-corporate="stock">Estoque</button>${manager ? `<button data-corporate="payments">Sistema de Pagamento</button><button data-corporate="access">Gestão de Logins</button>` : ''}` : `<button id="account">Dados Cadastrais</button><button id="payment-data">Dados de Pagamento</button><button id="orders-menu">Minhas Compras</button>`}<button id="logout-menu">Sair</button></nav></div>` : `<button class="login-button" id="login">Entrar</button>`}<button class="cart-button" id="cart" aria-label="Abrir carrinho">${icon('bag',22)}<span>Carrinho</span><b id="cart-count" hidden>0</b></button></div></header>
   <main><section class="hero"><div class="hero-copy"><span class="kicker">NOVIDADES DA SEMANA</span><h1>${escapeHtml(store.tagline)}</h1><p>Escolhas especiais, compra segura e entrega para todo o Brasil.</p><a href="#produtos">Ver produtos <span>↗</span></a></div>${heroVisual}</section>
-  <section class="benefits"><div><b>↗</b><span><strong>Envio rápido</strong><small>Para todo o Brasil</small></span></div><div><b>◇</b><span><strong>Compra protegida</strong><small>Pagamento seguro</small></span></div><div><b>↺</b><span><strong>Troca fácil</strong><small>Até 7 dias</small></span></div><div><b>♡</b><span><strong>Atendimento</strong><small>Feito por pessoas</small></span></div></section>
-  <section class="catalog" id="produtos"><div class="section-head"><div><span class="kicker">NOSSA SELEÇÃO</span><h2>Produtos em destaque</h2></div></div><div class="filters">${categories.map((c,i)=>`<button data-category="${escapeHtml(c)}" class="${i===0?'active':''}">${escapeHtml(c)}</button>`).join('')}</div><div class="product-grid" id="products"></div></section>
+  <section class="benefits category-navigation" aria-label="Categorias">${categories.map(category=>`<button data-category="${escapeHtml(category)}" class="${state.category===category?'active':''}">${category==='Todos'?'Todas as Categorias':escapeHtml(category)}</button>`).join('')}</section>
+  <section class="catalog" id="produtos"><div class="section-head"><div><span class="kicker">NOSSA SELEÇÃO</span><h2>Produtos em destaque</h2></div></div><div class="product-grid" id="products"></div></section>
   <section class="about" id="sobre"><span class="kicker">COMPRE COM CONFIANÇA</span><h2>Uma experiência simples do começo ao fim.</h2><p>Produtos escolhidos com cuidado, pagamento dentro da loja e acompanhamento dos seus pedidos em um só lugar.</p></section></main>
   <footer class="portal-simple-footer organization-footer"><span class="footer-system-logo"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"></span><button class="footer-developer" id="developer-contact" type="button" aria-label="Abrir contatos de suporte da EVOTECHUB"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span>© EVOTECHUB 2026 - Todos os direitos reservados.</span></button></footer>`;
   updateCartBadge(); renderProducts();
@@ -61,11 +75,11 @@ function renderApp() {
   document.querySelectorAll('[data-corporate]').forEach(button => button.onclick = () => { setUserMenu(false); openCorporate(button.dataset.corporate); });
   $('#logout-menu')?.addEventListener('click', logoutUser);
   $('#developer-contact')?.addEventListener('click', openDeveloperContact);
-  document.querySelectorAll('[data-category]').forEach(btn => btn.onclick = () => { state.category = btn.dataset.category; document.querySelectorAll('[data-category]').forEach(x => x.classList.toggle('active', x===btn)); renderProducts(); });
+  document.querySelectorAll('[data-category]').forEach(btn => btn.onclick = () => { state.category = btn.dataset.category; document.querySelectorAll('[data-category]').forEach(x => x.classList.toggle('active', x===btn)); renderProducts(); $('#produtos')?.scrollIntoView({behavior:'smooth',block:'start'}); });
   if (!state.user || staff) $('#cart')?.remove(); else if ($('#cart svg')) $('#cart svg').outerHTML = icon('cart', 22);
   loadPublicContacts();
 }
-function modal(content, className='') { const modalClasses=className.split(/\s+/);const centered=modalClasses.includes('manager-modal')||modalClasses.includes('product-modal')?' centered-overlay':''; $('#modal-root').innerHTML = `<div class="modal-overlay${centered}"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
+function modal(content, className='') { const modalClasses=className.split(/\s+/);const centered=['manager-modal','product-modal','description-modal'].some(name=>modalClasses.includes(name))?' centered-overlay':''; $('#modal-root').innerHTML = `<div class="modal-overlay${centered}"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
 function closeModal() { $('#modal-root').innerHTML = ''; }
 function confirmProductWithoutImage(){
   return new Promise(resolve=>{
