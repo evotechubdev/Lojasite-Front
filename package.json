@@ -1,1 +1,1 @@
-{"name":"lojasite-frontend","version":"1.0.0","private":true,"scripts":{"dev":"vite","build":"vite build","start":"npm run build && node server.js","preview":"vite preview"},"devDependencies":{"vite":"^7.0.0"}}
+{"name":"lojasite-frontend","version":"1.0.0","private":true,"scripts":{"dev":"vite","build":"vite build","start":"npm run build && node server.js","preview":"vite preview"},"devDependencies":{"vite":"^7.0.0"},"dependencies":{"exceljs":"^4.4.0"},"overrides":{"uuid":"11.1.1"}}
