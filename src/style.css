@@ -419,3 +419,13 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .store-map-column .store-map iframe,.store-map-column .store-map>a,.store-map-column .store-map>div{height:100%;min-height:0}
   .store-about .organization-footer{height:78px;min-height:78px}
 }
+
+/* Espaço vertical excedente fica acima do título, nunca dentro dos cards */
+@media(min-width:601px){
+  .catalog{padding-top:clamp(28px,7svh,88px)}
+  .catalog-browser>.product-grid{flex:0 0 auto;align-content:start;grid-auto-rows:auto}
+  .catalog .product-card{height:auto;align-self:start}
+}
+@media (min-width:1051px) and (max-height:1000px){
+  .catalog{padding-top:clamp(18px,4svh,40px)}
+}
