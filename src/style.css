@@ -440,3 +440,20 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 .purchase-popup h3{margin-bottom:14px}
 .purchase-popup p{margin:0;color:#596273;line-height:1.6}
 @keyframes purchase-popup-in{from{transform:translateY(10px) scale(.98);opacity:0}}
+
+/* Pop-up de contato com o desenvolvedor */
+.developer-popup{width:min(480px,100%);animation:purchase-popup-in .2s ease}
+.developer-popup-logos{height:82px;display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:20px}
+.developer-popup-logos img{width:125px;height:76px;object-fit:contain}
+.developer-popup-logos span{width:1px;height:44px;background:#dfe3e8}
+.developer-popup .kicker{text-align:center}
+.developer-popup h3{margin:0 0 22px;text-align:center}
+.developer-popup-actions{display:grid;gap:10px}
+.developer-popup-action{min-height:52px;display:flex;align-items:center;gap:11px;padding:12px 15px;border:1px solid #dfe3e8;border-radius:11px;background:#fff;font-size:13px;font-weight:800}
+.developer-popup-action.email{color:#2563eb}
+.developer-popup-action.whatsapp{color:#128c4b}
+.developer-popup-action:hover{transform:translateY(-1px);box-shadow:0 8px 20px #17203314}
+@media(max-width:480px){
+  .developer-popup-logos{gap:10px}
+  .developer-popup-logos img{width:105px;height:66px}
+}

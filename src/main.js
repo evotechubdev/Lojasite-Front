@@ -179,12 +179,18 @@ async function openDeveloperContact() {
   try {
     const contact = await api('/api/public/contact');
     const email = contact.supportEmail
-      ? `<a class="contact-action" href="mailto:${escapeHtml(contact.supportEmail)}">${escapeHtml(contact.supportEmail)}</a>`
+      ? `<a class="developer-popup-action email" href="mailto:${escapeHtml(contact.supportEmail)}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Falar com o suporte por e-mail</span></a>`
       : '<span class="muted">E-mail indisponível</span>';
     const whatsapp = contact.supportWhatsapp
-      ? `<a class="contact-action whatsapp" href="https://wa.me/${contact.supportWhatsapp}" target="_blank" rel="noopener">Falar com o suporte pelo WhatsApp</a>`
+      ? `<a class="developer-popup-action whatsapp" href="https://wa.me/${contact.supportWhatsapp}" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.84 9.84 0 0 0-8.47 14.86L2 22l5.27-1.53A9.96 9.96 0 1 0 12.04 2Zm0 17.99a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.13.91.91-3.05-.2-.31a8.01 8.01 0 1 1 6.85 3.76Zm4.45-6.07c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.96-1.21a7.31 7.31 0 0 1-1.35-1.68c-.14-.24-.02-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.31-.75-1.8-.2-.47-.4-.41-.55-.42h-.46c-.16 0-.42.06-.65.3-.22.24-.85.83-.85 2.02s.87 2.34.99 2.5c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.46-.28Z"/></svg><span>Falar com o suporte pelo WhatsApp</span></a>`
       : '<span class="muted">WhatsApp indisponível</span>';
-    modal(`<div class="developer-contact-modal"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span class="kicker">SUPORTE DAS LOJAS</span><h2>Fale com a EVOTECHUB</h2><div class="developer-contact-actions">${email}${whatsapp}</div></div>`, 'developer-modal');
+    const overlay=document.createElement('div');
+    overlay.className='mini-modal-overlay developer-popup-overlay';
+    overlay.innerHTML=`<section class="mini-modal developer-popup" role="dialog" aria-modal="true" aria-labelledby="developer-popup-title"><button class="mini-modal-close close" type="button" aria-label="Fechar">×</button><div class="developer-popup-logos"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"><span></span><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"></div><span class="kicker">SUPORTE DAS LOJAS</span><h3 id="developer-popup-title">Fale com a EVOTECHUB</h3><div class="developer-popup-actions">${email}${whatsapp}</div></section>`;
+    $('#modal-root').append(overlay);
+    const closePopup=()=>overlay.remove();
+    overlay.querySelector('.mini-modal-close').onclick=closePopup;
+    overlay.onclick=event=>{if(event.target===overlay)closePopup();};
   } catch (error) { toast(error.message, 'error'); }
 }
 
