@@ -1,4 +1,33 @@
 {
   "nome_sistema": "LojaSite",
-  "slogan": "Sua Loja Online!"
+  "slogan": "Sua Loja Online!",
+  "planos": [
+    {
+      "nome": "Bronze",
+      "valor_mensal": 49.90,
+      "beneficios": [
+        "Vitrine online personalizada",
+        "Solicitações de compra pelo WhatsApp",
+        "Identidade visual da organização"
+      ]
+    },
+    {
+      "nome": "Prata",
+      "valor_mensal": 89.90,
+      "beneficios": [
+        "Todos os recursos do plano Bronze",
+        "Cadastro de clientes e carrinho online",
+        "Pagamentos por PIX e cartão"
+      ]
+    },
+    {
+      "nome": "Ouro",
+      "valor_mensal": 149.90,
+      "beneficios": [
+        "Todos os recursos do plano Prata",
+        "Gestão de produtos, categorias e estoque",
+        "Área corporativa com perfis de acesso"
+      ]
+    }
+  ]
 }

@@ -471,3 +471,102 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 .portal-confirm-popup{width:min(430px,100%);text-align:center;animation:purchase-popup-in .2s ease}
 .portal-confirm-popup h3{margin:0;font-size:22px;line-height:1.4}
 .portal-confirm-popup .mini-modal-actions{justify-content:center}
+
+/* Abas do portal com o mesmo padrão visual das organizações */
+.portal-header>nav{display:flex;align-items:center;gap:0;border-bottom:1px solid #d9dde4}
+.portal-header>nav a{min-height:48px;display:flex;align-items:center;position:relative;padding:0 28px;color:#626975;font-size:14px;font-weight:900;letter-spacing:.045em}
+.portal-header>nav a::after{content:"";height:3px;position:absolute;right:50%;bottom:-1px;left:50%;border-radius:3px 3px 0 0;background:var(--primary);transition:right .22s ease,left .22s ease}
+.portal-header>nav a:hover,.portal-header>nav a.active{color:var(--ink)}
+.portal-header>nav a.active::after{right:15px;left:15px}
+@media(max-width:700px){
+  .portal-header>nav{max-width:100%;overflow-x:auto}
+  .portal-header>nav a{min-height:42px;padding-right:15px;padding-left:15px;font-size:12px;white-space:nowrap}
+  .portal-header>nav a.active::after{right:8px;left:8px}
+}
+
+/* Portal institucional em cinco seções */
+.portal-page-section{min-height:calc(100svh - 122px);scroll-margin-top:122px;display:flex;justify-content:center;flex-direction:column}
+.portal-header>nav a{padding-right:18px;padding-left:18px;font-size:12px;white-space:nowrap}
+.showcase-section,.sales-section,.security-section,.plans-section{width:100%;max-width:none;margin:0;padding:clamp(52px,7vw,90px) max(5vw,24px)}
+.showcase-section{background:#f5f7fa}
+.portal-showcase-wrap{width:100%;max-width:1240px;display:grid;grid-template-columns:42px minmax(0,1fr) 42px;align-items:center;gap:12px;margin:38px auto 0}
+.portal-showcase-wrap>button{width:42px;height:42px;border:1px solid #d9dee7;border-radius:50%;background:#fff;color:#20242b;font-size:20px;font-weight:800;box-shadow:0 7px 20px #17203310}
+.portal-showcase{display:flex;gap:18px;overflow-x:auto;padding:5px 3px 18px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.portal-showcase::-webkit-scrollbar{display:none}
+.portal-product-card{width:250px;min-width:250px;overflow:hidden;scroll-snap-align:start;border:1px solid #e0e4ea;border-radius:18px;background:#fff;box-shadow:0 12px 35px #1720330b}
+.portal-product-art{height:175px;display:grid;place-items:center;position:relative;background:var(--portal-art)}
+.portal-product-art>span{position:absolute;top:12px;left:12px;padding:5px 8px;border-radius:12px;background:#ffffffd9;font-size:9px;font-weight:900}
+.portal-product-card>div:last-child{padding:16px}
+.portal-product-card h3{margin:0 0 11px;font:800 17px Manrope}
+.portal-product-card strong{display:block;margin-bottom:14px;font:800 19px Manrope}
+.portal-product-card button{width:100%;height:38px;border:0;border-radius:9px;background:#17171b;color:#fff;font-size:11px;font-weight:800}
+
+.sales-section{background:#111822;color:#fff}
+.sales-section .portal-title p{color:#aeb9c8}
+.sales-models{width:100%;max-width:1120px;display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:40px auto 0}
+.sales-models article{min-height:300px;position:relative;padding:36px;border:1px solid #ffffff1f;border-radius:22px;background:#ffffff0a}
+.sales-models article>b{position:absolute;right:26px;top:22px;color:#ffffff1c;font:800 56px Manrope}
+.sales-models article>span{display:inline-block;padding:6px 9px;border-radius:7px;background:#176bff;color:#fff;font-size:10px;font-weight:900;letter-spacing:.08em}
+.sales-models h3{max-width:430px;margin:28px 0 15px;font:800 30px/1.15 Manrope}
+.sales-models p{margin:0;color:#b9c3d0;font-size:15px;line-height:1.7}
+
+.security-section{background:#edf5f2}
+.security-grid{width:100%;max-width:1180px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px auto 0}
+.security-grid article{padding:24px;border:1px solid #d7e6df;border-radius:16px;background:#fff}
+.security-grid strong{font:800 16px Manrope}
+.security-grid p{margin:12px 0 0;color:#5e6b67;font-size:13px;line-height:1.6}
+.security-references{max-width:1180px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 15px;margin:22px auto 0;color:#4f605a;font-size:11px}
+.security-references span{font-weight:900}
+.security-references a{border-bottom:1px solid #80958c;font-weight:700}
+
+.plans-section{background:#f8f7f4}
+.portal-plans{width:100%;max-width:1050px;display:grid;grid-template-columns:repeat(3,1fr);align-items:stretch;gap:16px;margin:34px auto 0}
+.portal-plan{display:flex;position:relative;flex-direction:column;padding:26px;border:1px solid #dedfdc;border-radius:18px;background:#fff}
+.portal-plan.featured{border:2px solid #176bff;box-shadow:0 18px 45px #176bff1a}
+.portal-plan>span{color:#176bff;font-size:9px;font-weight:900;letter-spacing:.1em}
+.portal-plan h3{margin:10px 0 16px;font:800 24px Manrope}
+.plan-price{display:flex;align-items:baseline;gap:3px}
+.plan-price strong{font:800 36px Manrope}
+.plan-price small{color:#6d7480;font-size:11px}
+.portal-plan ul{flex:1;margin:20px 0;padding:0;list-style:none}
+.portal-plan li{position:relative;margin:10px 0;padding-left:19px;color:#59616d;font-size:12px;line-height:1.45}
+.portal-plan li::before{content:"✓";position:absolute;left:0;color:#128c4b;font-weight:900}
+.portal-plan>a{height:42px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#17171b;color:#fff;font-size:12px;font-weight:800}
+.portal-plan.featured>a{background:#176bff}
+.plans-bottom{width:100%;max-width:1050px;display:grid;grid-template-columns:auto minmax(340px,1fr);align-items:center;gap:18px;margin:20px auto 0}
+.plans-contact{display:flex;gap:8px}
+.plans-contact a{padding:12px 15px;font-size:11px}
+.plans-bottom form{height:48px;display:flex;align-items:center;padding:0 5px 0 16px;border:1px solid #d9dde4;border-radius:12px;background:#fff}
+.plans-bottom form>span{color:#667085;font-size:12px}
+.plans-bottom input{min-width:0;flex:1;padding:0 8px;border:0;outline:0}
+.plans-bottom form button{height:38px;padding:0 14px;border:0;border-radius:8px;background:#17171b;color:#fff;font-size:11px;font-weight:800}
+
+@media(max-width:1050px){
+  .portal-header{height:auto;min-height:110px;display:grid;grid-template-columns:auto 1fr auto;gap:8px 15px;padding-top:8px;padding-bottom:8px}
+  .portal-header>nav{grid-column:1/-1;grid-row:2;justify-content:flex-start}
+  .portal-page-section{min-height:calc(100svh - 110px);scroll-margin-top:110px}
+  .security-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .portal-header{grid-template-columns:1fr auto}
+  .portal-header .portal-access{grid-column:2}
+  .portal-header>nav{grid-column:1/-1}
+  .portal-page-section{min-height:0;scroll-margin-top:130px}
+  .portal-hero{padding-top:48px;padding-bottom:48px}
+  .showcase-section,.sales-section,.security-section,.plans-section{padding:55px 16px}
+  .portal-showcase-wrap{grid-template-columns:34px minmax(0,1fr) 34px;gap:6px}
+  .portal-showcase-wrap>button{width:34px;height:34px}
+  .portal-product-card{width:min(250px,72vw);min-width:min(250px,72vw)}
+  .sales-models,.portal-plans{grid-template-columns:1fr}
+  .sales-models article{min-height:0;padding:28px}
+  .sales-models h3{font-size:25px}
+  .security-grid{grid-template-columns:1fr}
+  .plans-bottom{grid-template-columns:1fr}
+  .plans-contact{justify-content:center}
+}
+@media(max-width:480px){
+  .portal-header .portal-access{padding:10px 12px;font-size:10px}
+  .plans-bottom form{height:auto;align-items:stretch;flex-direction:column;gap:7px;padding:12px}
+  .plans-bottom form>span{display:none}
+  .plans-bottom input,.plans-bottom form button{width:100%;height:40px}
+}
