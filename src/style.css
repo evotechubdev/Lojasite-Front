@@ -116,3 +116,15 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .store-map iframe,.store-map>a,.store-map>div{height:220px;min-height:220px}
   .store-route-actions{grid-template-columns:1fr 1fr}
 }
+
+/* Processos de entrada e cadastro */
+.login-process{margin-top:24px;padding:22px;border:1px solid #d9dde5;border-radius:14px;background:#fafbfc}
+.login-process>label:not(.show-password){display:block;margin:0 0 18px;font-size:12px;font-weight:700}
+.login-process .show-password{margin:0 0 18px!important}
+.login-modal .login-process .login-submit{margin-top:0;background:#176bff!important;color:#fff}
+.login-modal .login-process .login-submit:hover{background:#0f56d6!important}
+.signup-process{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);text-align:center}
+.signup-process>span{display:block;margin-bottom:11px;color:var(--muted);font-size:13px}
+.signup-modal-button{height:50px;border:0;border-radius:11px;background:#111;color:#fff;font-weight:800}
+.signup-modal-button:hover{background:#000}
+@media(max-width:600px){.login-process{padding:18px}}
