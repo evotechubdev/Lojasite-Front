@@ -302,6 +302,21 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 
 /* Mapa alinhado ao nome da loja e bases das colunas niveladas */
 @media(min-width:1051px){
-  .store-description{height:220px;-webkit-line-clamp:6}
+  .store-about-copy{display:flex;flex-direction:column}
+  .store-description{height:auto;min-height:280px;flex:1;-webkit-line-clamp:8}
   .store-map-column{align-self:stretch;padding:53px 0 54px}
+}
+
+/* Endereço compacto sobre o mapa e grupo de contatos */
+.store-map{position:relative}
+.store-map .place-details-compact-container{height:auto;min-height:0;display:flex;align-items:flex-start;justify-content:center;position:absolute;z-index:2;right:14px;bottom:14px;left:14px;padding:14px 16px;border:1px solid #dfe3e8;border-radius:12px;background:#fffffff2;box-shadow:0 10px 30px #17203326;color:var(--ink);text-align:left;backdrop-filter:blur(8px)}
+.store-map .place-details-compact-container[hidden]{display:none}
+.place-details-compact-container strong{font-size:13px}
+.place-details-compact-container span{color:#60697a;font-size:12px;line-height:1.45}
+.store-contact-actions{grid-column:2;grid-row:1/span 2;display:flex;align-items:center;flex-direction:column;gap:5px}
+.store-contact-actions>b{color:var(--ink);font-size:12px}
+.store-contact-actions .contact-icons{display:flex;gap:9px}
+@media(max-width:600px){
+  .store-contact-actions{align-items:flex-end}
+  .store-map .place-details-compact-container{right:9px;bottom:9px;left:9px}
 }
