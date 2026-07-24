@@ -93,14 +93,20 @@ function startProductCarousel(){
 function openProductDescription(product){modal(`<span class="kicker">${escapeHtml(product.category)}</span><h2>${escapeHtml(product.name)}</h2><div class="description-content">${escapeHtml(product.description)}</div>`,'description-modal');}
 function openPurchaseRequest(product){
   const store=state.store;
-  modal(`<span class="kicker">SOLICITAÇÃO PELO WHATSAPP</span><h2>Solicitar compra</h2><p class="muted">Deseja solicitar a compra de <strong>${escapeHtml(product.name)}</strong> pelo WhatsApp da loja <strong>${escapeHtml(store.name)}</strong>?</p><div class="purchase-confirm-actions"><button class="secondary" id="cancel-purchase-request" type="button">Cancelar</button><button class="purchase-confirm" id="confirm-purchase-request" type="button">Solicitar</button></div>`,'confirm-purchase-modal');
-  $('#cancel-purchase-request').onclick=closeModal;
-  $('#confirm-purchase-request').onclick=()=>{
+  const overlay=document.createElement('div');
+  overlay.className='mini-modal-overlay purchase-popup-overlay';
+  overlay.innerHTML=`<section class="mini-modal purchase-popup" role="alertdialog" aria-modal="true" aria-labelledby="purchase-popup-title"><button class="mini-modal-close close" type="button" aria-label="Fechar">×</button><span class="kicker">SOLICITAÇÃO PELO WHATSAPP</span><h3 id="purchase-popup-title">Solicitar compra</h3><p>Deseja solicitar a compra de <strong>${escapeHtml(product.name)}</strong> pelo WhatsApp da loja <strong>${escapeHtml(store.name)}</strong>?</p><div class="purchase-confirm-actions"><button class="secondary" data-cancel-purchase type="button">Cancelar</button><button class="purchase-confirm" data-confirm-purchase type="button">Solicitar</button></div></section>`;
+  $('#modal-root').append(overlay);
+  const closePopup=()=>overlay.remove();
+  overlay.querySelector('.mini-modal-close').onclick=closePopup;
+  overlay.querySelector('[data-cancel-purchase]').onclick=closePopup;
+  overlay.onclick=event=>{if(event.target===overlay)closePopup();};
+  overlay.querySelector('[data-confirm-purchase]').onclick=()=>{
     const whatsapp=String(store.publicInfo?.whatsappOs||'').replace(/\D/g,'');
     if(!whatsapp)return toast('O WhatsApp de ordem de serviço desta loja não está configurado.','error');
     const message=`Olá! Gostaria de solicitar a compra do produto "${product.name}" (${money(product.price)}) na loja ${store.name}.`;
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
-    closeModal();
+    closePopup();
   };
 }
 function updateCartBadge() { const count = Object.values(state.cart).reduce((a,b) => a+b, 0); const el = $('#cart-count'); if (el) { el.textContent = count; el.hidden = count === 0; } }

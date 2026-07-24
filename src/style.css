@@ -433,3 +433,10 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .catalog{justify-content:center;padding-top:clamp(40px,6svh,80px);padding-bottom:clamp(40px,6svh,80px)}
   .catalog-browser{flex:0 0 auto}
 }
+
+/* Pop-up compacto para solicitação via WhatsApp */
+.purchase-popup{width:min(440px,100%);animation:purchase-popup-in .2s ease}
+.purchase-popup .kicker{margin-bottom:10px}
+.purchase-popup h3{margin-bottom:14px}
+.purchase-popup p{margin:0;color:#596273;line-height:1.6}
+@keyframes purchase-popup-in{from{transform:translateY(10px) scale(.98);opacity:0}}
