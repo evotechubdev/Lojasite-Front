@@ -3,30 +3,42 @@
   "slogan": "Sua Loja Online!",
   "planos": [
     {
-      "nome": "Bronze",
-      "valor_mensal": 49.99,
+      "nome": "Basic",
+      "valor_mensal": 49.90,
+      "estrelas": 3,
       "beneficios": [
-        "Vitrine online personalizada",
-        "Solicitações de compra pelo WhatsApp",
-        "Identidade visual da organização"
+        "Todos os recursos da vitrine online",
+        "Venda por ordem de serviço enviada ao WhatsApp",
+        "Compra sem necessidade de login do cliente",
+        "Não inclui login de clientes nem venda online pelo site"
       ]
     },
     {
-      "nome": "Prata",
+      "nome": "Profissional",
       "valor_mensal": 89.90,
+      "recomendado": true,
+      "estrelas": 4,
       "beneficios": [
-        "Todos os recursos do plano Bronze",
-        "Cadastro de clientes e carrinho online",
-        "Pagamentos por PIX e cartão"
+        "Todos os recursos do plano Basic",
+        "Venda por ordem de serviço pelo WhatsApp",
+        "Venda online diretamente pelo site",
+        "Até 10 logins corporativos para funcionários",
+        "Até 100 logins de clientes"
       ]
     },
     {
-      "nome": "Ouro",
+      "nome": "Personalizado",
       "valor_mensal": 149.90,
+      "a_partir_de": true,
+      "estrelas": 5,
       "beneficios": [
-        "Todos os recursos do plano Prata",
-        "Gestão de produtos, categorias e estoque",
-        "Área corporativa com perfis de acesso"
+        "Todos os recursos do plano Profissional",
+        "Recursos e limites definidos conforme a sua demanda",
+        "Maior capacidade de logins corporativos e de clientes",
+        "Estrutura preparada para ampliar suas vendas online",
+        "Configuração adaptada aos processos do seu negócio",
+        "Solução personalizada para a necessidade da sua loja",
+        "Valores justos e ótima qualidade"
       ]
     }
   ]
