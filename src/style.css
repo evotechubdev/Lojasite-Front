@@ -187,3 +187,38 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .store-header-center .store-nav a{min-height:38px;padding-right:13px;padding-left:13px;font-size:11px}
   .catalog-search .header-search{height:42px}
 }
+
+/* Uma seção por área visível e cards com largura estável */
+:root{--store-header-height:92px}
+.store-page-section{min-height:calc(100svh - var(--store-header-height));scroll-margin-top:var(--store-header-height)}
+.catalog{min-height:calc(100svh - var(--store-header-height))}
+.catalog-search{width:min(380px,100%);max-width:380px;margin:20px 0 0}
+.catalog-search .header-search{width:100%}
+.catalog-browser>.product-grid,.catalog-browser>.product-grid.expanded{grid-template-columns:repeat(auto-fill,minmax(260px,300px));justify-content:start}
+.catalog .product-card{width:100%;max-width:300px}
+.hero{min-height:calc(100svh - var(--store-header-height))}
+.store-about.store-page-section{min-height:calc(100svh - var(--store-header-height))}
+
+@media(max-width:800px){
+  :root{--store-header-height:160px}
+  .catalog-browser>.product-grid,.catalog-browser>.product-grid.expanded{grid-template-columns:repeat(auto-fill,minmax(240px,300px))}
+}
+@media(max-width:600px){
+  :root{--store-header-height:150px}
+  .catalog-browser>.product-grid,.catalog-browser>.product-grid.expanded{grid-template-columns:minmax(0,1fr)}
+  .catalog .product-card{max-width:100%}
+  .catalog-search{width:100%;max-width:360px}
+}
+
+/* Navegação com aparência de abas, sem aspecto de botão */
+.store-header-center .store-nav{width:auto;padding:0;border:0;border-bottom:1px solid #d9dde4;border-radius:0;background:transparent;box-shadow:none}
+.store-header-center .store-nav a{min-height:48px;position:relative;padding:0 28px;border:0!important;border-radius:0;background:transparent!important;box-shadow:none!important;color:#626975}
+.store-header-center .store-nav a+a::before{display:none}
+.store-header-center .store-nav a::after{content:"";height:3px;position:absolute;right:50%;bottom:-1px;left:50%;border-radius:3px 3px 0 0;background:var(--primary);transition:right .22s ease,left .22s ease}
+.store-header-center .store-nav a:hover{color:var(--ink)}
+.store-header-center .store-nav a.active{color:var(--ink);box-shadow:none}
+.store-header-center .store-nav a.active::after{right:15px;left:15px}
+@media(max-width:600px){
+  .store-header-center .store-nav a{min-height:42px;padding-right:15px;padding-left:15px}
+  .store-header-center .store-nav a.active::after{right:8px;left:8px}
+}
