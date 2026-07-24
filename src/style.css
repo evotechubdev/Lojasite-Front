@@ -272,3 +272,19 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 @media(max-width:1050px){
   .store-map-column{align-self:center}
 }
+
+/* Alinhamento visual das duas colunas de Nossa Loja */
+.store-description{height:190px;-webkit-line-clamp:5}
+.store-map-column{align-self:stretch;display:flex;flex-direction:column;padding:20px 0 54px}
+.store-map-column .store-map{height:auto;min-height:330px;flex:1}
+.store-map-column .store-map iframe,.store-map-column .store-map>a,.store-map-column .store-map>div{height:100%;min-height:330px}
+.store-map-column .store-route-actions{flex:0 0 auto}
+@media(max-width:1050px){
+  .store-map-column{width:100%;align-self:stretch;padding:0 0 42px}
+  .store-map-column .store-map{height:330px;min-height:330px;flex:none}
+}
+@media(max-width:600px){
+  .store-description{height:174px;-webkit-line-clamp:4}
+  .store-map-column .store-map{height:260px;min-height:260px}
+  .store-map-column .store-map iframe,.store-map-column .store-map>a,.store-map-column .store-map>div{min-height:260px}
+}
