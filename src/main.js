@@ -27,7 +27,8 @@ function toast(message, type='ok') { const el = document.createElement('div'); e
 function productCard(product) {
   const description=String(product.description||'');
   const descriptionElement=description.length>90?`<button class="product-description expandable" data-product-description="${escapeHtml(product.id)}" type="button" aria-label="Ler descrição completa de ${escapeHtml(product.name)}">${escapeHtml(description)}</button>`:`<p class="product-description">${escapeHtml(description)}</p>`;
-  return `<article class="product-card"><div class="product-art" style="--art:${product.color}"><span class="product-tag">${escapeHtml(product.category)}</span>${product.imageUrl ? `<img src="${escapeHtml(product.imageUrl)}" alt="${escapeHtml(product.name)}" loading="lazy">` : icon(product.icon, 72)}</div><div class="product-info"><h3>${escapeHtml(product.name)}</h3>${descriptionElement}<div class="product-buy"><div>${product.oldPrice ? `<s>${money(product.oldPrice)}</s>` : ''}<strong>${money(product.price)}</strong></div><button class="add" data-add="${product.id}" aria-label="Adicionar ${escapeHtml(product.name)}">${icon('bag',20)}<span>Adicionar</span></button></div></div></article>`;
+  const whatsappIcon='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.6Z"/><path d="M8.2 7.8c.3-.4.6-.4.9-.1l1.1 2c.2.4 0 .7-.4 1.1-.2.2.8 2 2.7 2.8.5.2.8-.6 1.2-1 .2-.2.5-.2.8 0l1.8 1.1c.4.2.4.6.3.9-.5 1.2-1.4 1.8-2.7 1.7-3.5-.3-7-3.5-7.2-6.7-.1-.8.5-1.5 1.5-1.8Z"/></svg>';
+  return `<article class="product-card"><div class="product-art" style="--art:${product.color}"><span class="product-tag">${escapeHtml(product.category)}</span>${product.imageUrl ? `<img src="${escapeHtml(product.imageUrl)}" alt="${escapeHtml(product.name)}" loading="lazy">` : icon(product.icon, 72)}</div><div class="product-info"><h3>${escapeHtml(product.name)}</h3>${descriptionElement}<div class="product-buy"><div>${product.oldPrice ? `<s>${money(product.oldPrice)}</s>` : ''}<strong>${money(product.price)}</strong></div><div class="product-actions"><button class="request-purchase" data-request-purchase="${product.id}" type="button">${whatsappIcon}<span>Solicitar Compra</span></button><button class="add" data-add="${product.id}" aria-label="Adicionar ${escapeHtml(product.name)}">${icon('bag',20)}<span>Adicionar</span></button></div></div></div></article>`;
 }
 function renderProducts() {
   clearInterval(state.productCarouselTimer);
@@ -50,6 +51,7 @@ function renderProducts() {
     setTimeout(() => btn.classList.remove('added'), 500);
   });
   document.querySelectorAll('[data-product-description]').forEach(button=>button.onclick=()=>{const product=state.store.products.find(item=>item.id===button.dataset.productDescription);if(product)openProductDescription(product);});
+  document.querySelectorAll('[data-request-purchase]').forEach(button=>button.onclick=()=>{const product=state.store.products.find(item=>item.id===button.dataset.requestPurchase);if(product)openPurchaseRequest(product);});
 }
 function renderSearchSuggestions(value) {
   const panel = $('#search-suggestions');
@@ -77,6 +79,18 @@ function startProductCarousel(){
   start();
 }
 function openProductDescription(product){modal(`<span class="kicker">${escapeHtml(product.category)}</span><h2>${escapeHtml(product.name)}</h2><div class="description-content">${escapeHtml(product.description)}</div>`,'description-modal');}
+function openPurchaseRequest(product){
+  const store=state.store;
+  modal(`<span class="kicker">SOLICITAÇÃO PELO WHATSAPP</span><h2>Solicitar compra</h2><p class="muted">Deseja solicitar a compra de <strong>${escapeHtml(product.name)}</strong> pelo WhatsApp da loja <strong>${escapeHtml(store.name)}</strong>?</p><div class="purchase-confirm-actions"><button class="secondary" id="cancel-purchase-request" type="button">Cancelar</button><button class="purchase-confirm" id="confirm-purchase-request" type="button">Solicitar</button></div>`,'confirm-purchase-modal');
+  $('#cancel-purchase-request').onclick=closeModal;
+  $('#confirm-purchase-request').onclick=()=>{
+    const whatsapp=String(store.publicInfo?.whatsappOs||'').replace(/\D/g,'');
+    if(!whatsapp)return toast('O WhatsApp de ordem de serviço desta loja não está configurado.','error');
+    const message=`Olá! Gostaria de solicitar a compra do produto "${product.name}" (${money(product.price)}) na loja ${store.name}.`;
+    window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
+    closeModal();
+  };
+}
 function updateCartBadge() { const count = Object.values(state.cart).reduce((a,b) => a+b, 0); const el = $('#cart-count'); if (el) { el.textContent = count; el.hidden = count === 0; } }
 function renderApp() {
   const store = state.store; document.title = `${store.name} · Loja online`; document.documentElement.style.setProperty('--primary', store.theme.primary); document.documentElement.style.setProperty('--accent', store.theme.accent);

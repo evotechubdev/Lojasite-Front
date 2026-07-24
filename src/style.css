@@ -222,3 +222,19 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .store-header-center .store-nav a{min-height:42px;padding-right:15px;padding-left:15px}
   .store-header-center .store-nav a.active::after{right:8px;left:8px}
 }
+
+/* Solicitação individual de compra pelo WhatsApp */
+.catalog .product-info{min-height:225px}
+.product-actions{display:flex;align-items:stretch;flex-direction:column;gap:7px}
+.product-actions .add,.request-purchase{width:154px;min-height:40px;display:flex;align-items:center;justify-content:center;gap:7px;padding:0 12px;border:0;border-radius:10px;font-size:11px;font-weight:800;white-space:nowrap}
+.request-purchase{background:#128c4b;color:#fff}
+.request-purchase:hover{background:#0d733d;transform:translateY(-1px)}
+.product-actions .add{height:40px}
+.purchase-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
+.purchase-confirm-actions button{height:48px;border-radius:10px;font-weight:800}
+.purchase-confirm{border:0;background:#128c4b;color:#fff}
+.purchase-confirm:hover{background:#0d733d}
+@media(max-width:420px){
+  .product-buy{align-items:stretch;flex-direction:column}
+  .product-actions .add,.request-purchase{width:100%}
+}
