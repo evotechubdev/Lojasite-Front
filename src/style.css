@@ -457,3 +457,17 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .developer-popup-logos{gap:10px}
   .developer-popup-logos img{width:105px;height:66px}
 }
+
+/* Pop-up institucional LojaSite */
+.organization-footer button.footer-system-logo{border-top:0;border-bottom:0;border-left:0;background:transparent;color:#fff;cursor:pointer}
+.organization-footer button.footer-system-logo:hover img{transform:scale(1.04)}
+.organization-footer button.footer-system-logo img{transition:transform .2s ease}
+.lojasite-popup{width:min(410px,100%);text-align:center;animation:purchase-popup-in .2s ease}
+.lojasite-popup>img{width:170px;height:105px;display:block;margin:0 auto 10px;object-fit:contain}
+.lojasite-popup h3{margin:0;font-size:28px;letter-spacing:.08em}
+.lojasite-popup p{margin:7px 0 24px;color:var(--muted);font-size:16px}
+.lojasite-portal-button{min-height:46px;padding:0 22px;border:0;border-radius:10px;background:#176bff;color:#fff;font-weight:800}
+.lojasite-portal-button:hover{background:#0f56d6}
+.portal-confirm-popup{width:min(430px,100%);text-align:center;animation:purchase-popup-in .2s ease}
+.portal-confirm-popup h3{margin:0;font-size:22px;line-height:1.4}
+.portal-confirm-popup .mini-modal-actions{justify-content:center}
