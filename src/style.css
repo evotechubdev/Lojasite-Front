@@ -291,10 +291,10 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 
 /* Título e pesquisa alinhados à largura padrão do primeiro produto */
 .catalog .section-head>div{width:300px;max-width:100%;flex:0 0 300px}
-.catalog .section-head h2{font-size:30px;line-height:1.1;white-space:nowrap}
+.catalog .section-head h2{width:300px;max-width:100%;font-size:26px;line-height:1.1;white-space:nowrap}
 .catalog .catalog-search{width:300px;max-width:100%}
 @media(max-width:600px){
   .catalog .section-head>div{width:100%;flex:1 1 auto}
-  .catalog .section-head h2{font-size:27px;white-space:normal}
+  .catalog .section-head h2{width:100%;font-size:25px;white-space:normal}
   .catalog .catalog-search{width:100%}
 }
