@@ -36,13 +36,14 @@ function productCard(product) {
 function renderProducts() {
   clearInterval(state.productCarouselTimer);
   const products = state.store.products.filter(p => (state.category === 'Todos' || p.category === state.category) && `${p.name} ${p.description}`.toLowerCase().includes(state.query.toLowerCase()));
-  const initialProductLimit = 3;
-  const visibleProducts = state.productsExpanded ? products : products.slice(0, initialProductLimit);
+  const verticalCarousel = matchMedia('(max-width: 600px)').matches;
+  const initialProductLimit = matchMedia('(max-width: 900px)').matches ? 2 : 3;
+  const visibleProducts = verticalCarousel || state.productsExpanded ? products : products.slice(0, initialProductLimit);
   $('#products').classList.toggle('expanded', state.productsExpanded);
   $('#products').innerHTML = visibleProducts.length ? visibleProducts.map(productCard).join('') : '<div class="empty"><h3>Nenhum produto encontrado</h3><p>Tente outro termo ou categoria.</p></div>';
   const moreButton = $('#more-products');
   if (moreButton) {
-    moreButton.hidden = products.length <= initialProductLimit;
+    moreButton.hidden = verticalCarousel || products.length <= initialProductLimit;
     moreButton.textContent = state.productsExpanded ? 'Menos Produtos' : `Mais Produtos (${products.length - initialProductLimit})`;
     moreButton.setAttribute('aria-expanded', String(state.productsExpanded));
   }
@@ -55,6 +56,7 @@ function renderProducts() {
   });
   document.querySelectorAll('[data-product-description]').forEach(button=>button.onclick=()=>{const product=state.store.products.find(item=>item.id===button.dataset.productDescription);if(product)openProductDescription(product);});
   document.querySelectorAll('[data-request-purchase]').forEach(button=>button.onclick=()=>{const product=state.store.products.find(item=>item.id===button.dataset.requestPurchase);if(product)openPurchaseRequest(product);});
+  if(verticalCarousel)requestAnimationFrame(startProductCarousel);
 }
 function renderSearchSuggestions(value) {
   const panel = $('#search-suggestions');
@@ -75,9 +77,16 @@ function renderSearchSuggestions(value) {
 }
 function startProductCarousel(){
   const carousel=$('#products');
-  if(!carousel||carousel.scrollHeight<=carousel.clientHeight+2)return;
-  const start=()=>{clearInterval(state.productCarouselTimer);state.productCarouselTimer=setInterval(()=>{if(!carousel.isConnected)return clearInterval(state.productCarouselTimer);const firstCard=carousel.querySelector('.product-card');const step=(firstCard?.offsetHeight||280)+24;const atEnd=carousel.scrollTop+carousel.clientHeight>=carousel.scrollHeight-8;carousel.scrollTo({top:atEnd?0:carousel.scrollTop+step,behavior:'smooth'});},3200);};
+  const controls=$('#product-carousel-controls');
+  if(!carousel)return;
+  const hasOverflow=carousel.scrollHeight>carousel.clientHeight+2;
+  if(controls)controls.hidden=!hasOverflow;
+  if(!hasOverflow)return;
+  const move=direction=>{const firstCard=carousel.querySelector('.product-card');const step=(firstCard?.offsetHeight||280)+8;const atEnd=carousel.scrollTop+carousel.clientHeight>=carousel.scrollHeight-8;const atStart=carousel.scrollTop<=8;carousel.scrollTo({top:direction>0?(atEnd?0:carousel.scrollTop+step):(atStart?carousel.scrollHeight:carousel.scrollTop-step),behavior:'smooth'});};
+  const start=()=>{clearInterval(state.productCarouselTimer);state.productCarouselTimer=setInterval(()=>{if(!carousel.isConnected)return clearInterval(state.productCarouselTimer);move(1);},3200);};
   const pause=()=>clearInterval(state.productCarouselTimer);
+  $('#previous-product')?.addEventListener('click',()=>{pause();move(-1);start();});
+  $('#next-product')?.addEventListener('click',()=>{pause();move(1);start();});
   carousel.addEventListener('mouseenter',pause);carousel.addEventListener('mouseleave',start);carousel.addEventListener('touchstart',pause,{passive:true});carousel.addEventListener('touchend',start,{passive:true});
   start();
 }
@@ -120,7 +129,7 @@ function renderApp() {
   const contactMailIcon='<svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
   const contactItems = `<div class="store-hours"><b>Horário de funcionamento</b><span>${escapeHtml(info.hours || 'Consulte a loja')}</span><div class="store-contact-actions"><b>Contatos</b><div class="contact-icons">${info.whatsapp ? `<a class="contact-whatsapp" href="https://wa.me/${escapeHtml(info.whatsapp)}" target="_blank" rel="noopener" aria-label="Abrir WhatsApp" title="WhatsApp">${contactWhatsappIcon}</a>` : ''}${info.email ? `<a class="contact-email" href="mailto:${escapeHtml(info.email)}" aria-label="Enviar e-mail" title="E-mail">${contactMailIcon}</a>` : ''}</div></div></div>`;
   $('#app').innerHTML = `<header class="header store-header"><a class="logo store-logo store-logo-only" href="${import.meta.env.BASE_URL}${slug}" aria-label="${escapeHtml(store.name)}"><img id="store-logo-image" src="${import.meta.env.BASE_URL}imagens/${store.id}/logo.png" alt="Logo ${escapeHtml(store.name)}"></a><div class="store-header-center"><nav class="store-nav" aria-label="Seções da loja"><a href="#produtos" data-store-section="produtos">PRODUTOS</a><a href="#novidades" data-store-section="novidades">NOVIDADES</a><a href="#nossa-loja" data-store-section="nossa-loja">NOSSA LOJA</a></nav></div><div class="header-actions"><button class="cart-button" id="cart" aria-label="Abrir carrinho">${icon('bag',22)}<span>Carrinho</span><b id="cart-count" hidden>0</b></button>${state.user ? `<div class="user-menu-wrap"><button class="logged-user" id="user-menu-button" aria-label="Abrir menu de ${escapeHtml(state.user.name)}" aria-expanded="false"><span class="user-avatar">${userAvatar}</span><span class="logged-user-name">${escapeHtml(state.user.name)}</span><b>⋮</b></button><nav class="user-menu" id="user-menu" hidden><strong>${escapeHtml(state.user.name)}</strong><small>${escapeHtml(state.user.cargo || '')}</small>${staff ? `<button data-corporate="stock">Estoque</button>${manager ? `<button data-corporate="payments">Sistema de Pagamento</button><button data-corporate="access">Gestão de Logins</button>` : ''}` : `<button id="account">Dados Cadastrais</button><button id="payment-data">Dados de Pagamento</button><button id="orders-menu">Minhas Compras</button>`}<button id="logout-menu">Sair</button></nav></div>` : `<button class="login-button" id="login">Entrar</button>`}</div></header>
-  <main><section class="catalog store-page-section" id="produtos"><div class="section-head"><div><span class="kicker">PRODUTOS</span><h2 class="aligned-product-title"><span>Produtos</span><span>em</span><span>destaque</span></h2><div class="catalog-search"><div class="header-search-wrap"><label class="header-search">⌕<input id="header-search" value="${escapeHtml(state.query)}" autocomplete="off" placeholder="Pesquisar produtos" aria-label="Pesquisar produtos" aria-controls="search-suggestions"></label><div class="search-suggestions" id="search-suggestions" hidden></div></div></div></div><button class="more-products" id="more-products" type="button" aria-expanded="false">Mais Produtos</button></div><div class="catalog-browser"><aside class="category-panel"><div class="category-navigation" aria-label="Categorias">${categories.map(category=>`<button data-category="${escapeHtml(category)}" class="${state.category===category?'active':''}">${category==='Todos'?'TODAS AS CATEGORIAS':escapeHtml(category)}</button>`).join('')}</div></aside><div class="product-grid" id="products"></div></div></section>
+  <main><section class="catalog store-page-section" id="produtos"><div class="section-head"><div><span class="kicker">PRODUTOS</span><h2 class="aligned-product-title"><span>Produtos</span><span>em</span><span>destaque</span></h2><div class="catalog-search"><div class="header-search-wrap"><label class="header-search">⌕<input id="header-search" value="${escapeHtml(state.query)}" autocomplete="off" placeholder="Pesquisar produtos" aria-label="Pesquisar produtos" aria-controls="search-suggestions"></label><div class="search-suggestions" id="search-suggestions" hidden></div></div></div></div><button class="more-products" id="more-products" type="button" aria-expanded="false">Mais Produtos</button></div><div class="catalog-browser"><aside class="category-panel"><div class="category-navigation" aria-label="Categorias">${categories.map(category=>`<button data-category="${escapeHtml(category)}" class="${state.category===category?'active':''}">${category==='Todos'?'TODAS AS CATEGORIAS':escapeHtml(category)}</button>`).join('')}</div></aside><div class="product-grid" id="products"></div><div class="product-carousel-controls" id="product-carousel-controls" hidden><button id="previous-product" type="button" aria-label="Produto anterior">↑</button><span>Deslize ou navegue pelos produtos</span><button id="next-product" type="button" aria-label="Próximo produto">↓</button></div></div></section>
   <section class="hero store-page-section" id="novidades"><div class="hero-copy"><span class="kicker">NOVIDADES</span><h1>${escapeHtml(store.tagline)}</h1><p>Escolhas especiais, compra segura e entrega para todo o Brasil.</p><a href="#produtos" data-store-section="produtos">Ver produtos <span>↗</span></a></div>${heroVisual}</section>
   <section class="store-about store-page-section" id="nossa-loja"><div class="store-about-copy"><span class="kicker">NOSSA LOJA</span><h2>${escapeHtml(store.name)}</h2><button class="store-description" id="store-description" type="button">${escapeHtml(info.description || store.tagline)}<span>...mais</span></button><div class="store-contacts">${contactItems}</div></div><div class="store-map-column"><div class="store-map">${info.mapUrl || generatedMapUrl ? `<iframe src="${escapeHtml(info.mapUrl || generatedMapUrl)}" title="Mapa de ${escapeHtml(store.name)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>` : '<div><strong>Mapa em preparação</strong><span>O endereço desta loja será publicado em breve.</span></div>'}</div></div><footer class="portal-simple-footer organization-footer"><span class="footer-system-logo"><img src="${import.meta.env.BASE_URL}imagens/logo.png" alt="Logo LojaSite"></span><button class="footer-developer" id="developer-contact" type="button" aria-label="Abrir contatos de suporte da EVOTECHUB"><img src="${import.meta.env.BASE_URL}imagens/logo_dev.png" alt="Logo EVOTECHUB"><span>© EVOTECHUB 2026 - Todos os direitos reservados.</span></button></footer></section></main>`;
   updateCartBadge(); renderProducts();
