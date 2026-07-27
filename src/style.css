@@ -1312,4 +1312,58 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   }
 }
 
+/* Menu sempre abaixo do header fixo da organização. */
+.store-header .user-menu{
+  width:min(280px,calc(100vw - 30px));
+  max-height:calc(100svh - var(--store-header-height) - 20px);
+  position:fixed;
+  z-index:140;
+  top:calc(var(--store-header-height) + 8px);
+  right:var(--page-gutter);
+  overflow-y:auto;
+}
+
+/* Itens do menu abrem como janelas internas completas, sem trocar a URL. */
+.modal-overlay.system-window-overlay{
+  z-index:180;
+  inset:0;
+  padding:0;
+  background:#f3f5f8;
+  backdrop-filter:none;
+}
+.system-window-modal{
+  width:100%;
+  max-width:none;
+  height:100svh;
+  padding:clamp(70px,9vh,110px) max(24px,calc((100vw - 1100px)/2)) 60px;
+  overflow-y:auto;
+  box-shadow:none;
+  animation:none;
+}
+.system-window-modal>.close{
+  position:fixed;
+  z-index:2;
+  top:22px;
+  right:28px;
+}
+.system-window-modal>h2{font-size:clamp(32px,4vw,48px)}
+.system-window-modal>.profile-photo-editor,
+.system-window-modal>.notice-panel,
+.system-window-modal>.orders,
+.system-window-modal>.secondary,
+.system-window-modal>.text-button{
+  max-width:900px;
+}
+
+@media(max-width:800px){
+  .store-header .user-menu{
+    top:calc(var(--store-header-height) + 6px);
+    right:15px;
+    left:15px;
+    width:auto;
+  }
+  .system-window-modal{padding:70px 18px 40px}
+  .system-window-modal>.close{top:16px;right:16px}
+}
+
 
