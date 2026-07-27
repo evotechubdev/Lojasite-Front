@@ -1397,4 +1397,25 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .account-details{grid-template-columns:1fr}
 }
 
+/* Popups sempre acima do header fixo. */
+.modal-overlay{z-index:300}
+.modal-overlay.centered-overlay{z-index:310}
+.profile-photo-modal{
+  width:min(520px,100%);
+  height:auto;
+  max-height:calc(100svh - 32px);
+  padding:42px;
+  overflow-y:auto;
+  border-radius:18px;
+  animation:none;
+}
+
+@media(max-width:600px){
+  .modal-overlay.centered-overlay{padding:12px}
+  .profile-photo-modal{
+    max-height:calc(100svh - 24px);
+    padding:38px 18px 22px;
+  }
+}
+
 

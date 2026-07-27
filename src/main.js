@@ -176,7 +176,7 @@ function renderApp() {
   if (!state.user || staff) $('#cart')?.remove(); else if ($('#cart svg')) $('#cart svg').outerHTML = icon('cart', 22);
   loadPublicContacts();
 }
-function modal(content, className='') { const modalClasses=className.split(/\s+/);const centered=['manager-modal','product-modal','description-modal'].some(name=>modalClasses.includes(name))?' centered-overlay':'';const systemWindow=modalClasses.includes('system-window-modal')?' system-window-overlay':''; $('#modal-root').innerHTML = `<div class="modal-overlay${centered}${systemWindow}"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
+function modal(content, className='') { const modalClasses=className.split(/\s+/);const centered=['manager-modal','product-modal','description-modal','profile-photo-modal'].some(name=>modalClasses.includes(name))?' centered-overlay':'';const systemWindow=modalClasses.includes('system-window-modal')?' system-window-overlay':''; $('#modal-root').innerHTML = `<div class="modal-overlay${centered}${systemWindow}"><section class="modal ${className}" role="dialog" aria-modal="true"><button class="close" aria-label="Fechar">×</button>${content}</section></div>`; $('.close').onclick = closeModal; $('.modal-overlay').onclick = e => { if (e.target.classList.contains('modal-overlay')) closeModal(); }; }
 function closeModal() { $('#modal-root').innerHTML = ''; }
 function confirmProductWithoutImage(){
   return new Promise(resolve=>{
