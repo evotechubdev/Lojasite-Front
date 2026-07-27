@@ -1467,3 +1467,9 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 .saved-card span{color:#dddde2;font-size:12px}
 
 
+.camera-capture-overlay{position:fixed;inset:0;z-index:1000;background:rgba(8,12,20,.86);display:grid;place-items:center;padding:16px}
+.camera-capture-modal{position:relative;width:min(520px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.camera-capture-modal video{display:block;width:100%;max-height:65vh;aspect-ratio:3/4;object-fit:cover;background:#111;border-radius:12px;margin:14px 0}
+.camera-capture-modal .camera-help{margin:0 0 12px;color:#5d6470;text-align:center}
+.camera-capture-modal .camera-close{position:absolute;right:12px;top:10px}
+button.photo-picker{font:inherit}
