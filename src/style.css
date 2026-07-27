@@ -1148,4 +1148,75 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .portal-plan li{font-size:12px}
 }
 
+/* Cards demonstrativos seguem o padrão visual dos produtos da organização. */
+.portal-product-info{min-width:0}
+.portal-product-buy{
+  display:flex;
+  align-items:stretch;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:auto;
+}
+.portal-product-card .product-actions{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.portal-product-card .product-actions .add,
+.portal-product-card .request-purchase{
+  width:136px;
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin:0;
+  padding:0 8px;
+  border:0;
+  border-radius:10px;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.portal-product-card .request-purchase{background:#128c4b}
+.portal-product-card .product-actions .add{background:#17171b}
+.portal-product-card .product-price{
+  width:auto;
+  min-width:96px;
+  min-height:83px;
+  margin:0;
+}
+.portal-product-card .product-price strong{
+  margin:0;
+  font-size:17px!important;
+}
+.demo-feature-note{
+  margin:20px 0 0;
+  padding:14px;
+  border-radius:10px;
+  background:#f4f6f9;
+  color:#59616d;
+  font-size:13px;
+  line-height:1.5;
+}
+
+@media(max-width:760px){
+  .mobile-showcase-slide .portal-product-card{
+    display:flex;
+    flex-direction:column;
+  }
+  .mobile-showcase-slide .portal-product-art{
+    width:100%;
+    height:170px;
+    border-right:0;
+    border-bottom:1px solid #e7eaf0;
+  }
+  .mobile-showcase-slide .portal-product-info{padding:14px}
+  .mobile-showcase-slide .portal-product-buy{margin-top:8px}
+  .mobile-showcase-slide .portal-product-card .product-actions{flex:1}
+  .mobile-showcase-slide .portal-product-card .product-actions .add,
+  .mobile-showcase-slide .portal-product-card .request-purchase{width:100%}
+}
+
 
