@@ -1235,4 +1235,27 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   }
 }
 
+/* Três colunas iguais sem recortar o plano da direita. */
+@media(min-width:761px){
+  .plans-section .portal-plans.row{
+    width:100%;
+    max-width:1420px;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+    margin-right:auto;
+    margin-left:auto;
+    padding-right:3px;
+    padding-left:3px;
+    overflow-x:visible;
+  }
+  .plans-section .portal-plans.row>.col-md-4{
+    width:100%;
+    max-width:none;
+    min-width:0;
+    display:flex;
+    padding:0;
+  }
+}
+
 
