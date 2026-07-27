@@ -822,3 +822,56 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 }
 .catalog .product-art>img{padding:10px}
 .portal-product-art>img{padding:8px}
+
+/* Bootstrap grid: estrutura previsível para vitrine e planos. */
+.portal-showcase-group.row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0;
+  margin-right:0;
+  margin-left:0;
+}
+.portal-showcase-group.row>[class*="col-"]{display:flex}
+.portal-product-card{width:100%;height:100%;display:flex;flex-direction:column}
+.portal-product-card>div:last-child{display:flex;flex:1;flex-direction:column}
+.portal-product-card button{margin-top:auto}
+.portal-plans.row{
+  display:flex;
+  flex-wrap:wrap;
+  margin-right:auto;
+  margin-left:auto;
+}
+.portal-plans.row>[class*="col-"]{display:flex;min-width:0}
+.portal-plans.row .portal-plan{width:100%;height:100%}
+
+@media(max-width:760px){
+  .portal-showcase-wrap{
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  .portal-showcase-wrap>button{
+    position:absolute;
+    z-index:3;
+    top:50%;
+    transform:translateY(-50%);
+  }
+  .portal-showcase-wrap{position:relative;padding:0 42px}
+  .portal-showcase-wrap>#showcase-previous{left:0}
+  .portal-showcase-wrap>#showcase-next{right:0}
+  .portal-showcase{width:100%;padding-bottom:8px}
+  .portal-showcase-group.row{
+    flex:0 0 100%;
+    gap:0;
+  }
+  .portal-showcase-group.row>[class*="col-"]{padding-top:8px;padding-bottom:8px}
+  .portal-product-art{height:190px}
+  .portal-product-card h3{min-height:0}
+  .portal-plans.row{display:flex;margin-top:24px;margin-bottom:32px}
+  .portal-plans.row>[class*="col-"]{padding-top:8px;padding-bottom:8px}
+}
+
+@media(max-width:420px){
+  .portal-showcase-wrap{padding-right:36px;padding-left:36px}
+  .portal-showcase-wrap>button{width:30px;height:30px}
+  .portal-product-art{height:175px}
+}
