@@ -1063,3 +1063,32 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .mobile-showcase-slide .portal-product-art{min-height:190px}
   .mobile-showcase-slide .portal-product-card>div:last-child{padding:11px}
 }
+
+/* Cards mantêm seu tamanho natural, sem alongamento artificial. */
+.portal-plans.row{align-items:flex-start}
+.portal-plans.row>[class*="col-"]{align-items:flex-start}
+.portal-plans.row .portal-plan{
+  height:auto;
+  align-self:flex-start;
+}
+.portal-plan h3{font-size:27px}
+.portal-plan .plan-stars{font-size:19px}
+.portal-plan .plan-price strong{font-size:39px}
+.portal-plan .plan-price small{font-size:13px}
+.portal-plan li{font-size:14px;line-height:1.5}
+.portal-plan>a{height:46px;font-size:14px}
+
+.portal-product-card{height:auto}
+.portal-showcase-group.row>[class*="col-"]{align-items:flex-start}
+.mobile-showcase-slide .portal-product-card{min-height:0}
+.mobile-showcase-slide .portal-product-art{
+  height:190px;
+  min-height:0;
+}
+
+@media(max-width:760px){
+  .portal-plan h3{font-size:25px}
+  .portal-plan .plan-price strong{font-size:36px}
+  .portal-plan li{font-size:14px}
+  .mobile-showcase-slide .portal-product-card{align-items:stretch}
+}
