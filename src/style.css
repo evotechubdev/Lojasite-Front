@@ -594,7 +594,7 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 .plan-price small{color:#6d7480;font-size:11px}
 .portal-plan ul{flex:1;margin:13px 0;padding:0;list-style:none}
 .portal-plan li{position:relative;margin:7px 0;padding-left:19px;color:#59616d;font-size:12px;line-height:1.35}
-.portal-plan li::before{content:"âœ“";position:absolute;left:0;color:#128c4b;font-weight:900}
+.portal-plan li::before{content:"✓";position:absolute;left:0;color:#128c4b;font-weight:900}
 .portal-plan>a{height:42px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#17171b;color:#fff;font-size:12px;font-weight:800}
 .portal-plan.featured>a{background:#176bff}
 .plans-bottom{width:100%;max-width:1240px;margin:20px auto 0}
