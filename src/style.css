@@ -1124,3 +1124,26 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   }
   .portal-plan li{font-size:clamp(9px,2.8vw,13px)}
 }
+
+/* Altura compacta após simplificação dos benefícios. */
+.plans-section .portal-plans{
+  margin-top:18px;
+  margin-bottom:28px;
+}
+.portal-plans.row .portal-plan{
+  height:350px;
+  min-height:350px;
+}
+.portal-plan li{
+  font-size:13px;
+  letter-spacing:0;
+}
+
+@media(max-width:760px){
+  .plans-section .portal-plans{margin-top:20px;margin-bottom:36px}
+  .portal-plans.row .portal-plan{
+    height:350px;
+    min-height:350px;
+  }
+  .portal-plan li{font-size:12px}
+}
