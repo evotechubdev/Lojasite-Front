@@ -1577,7 +1577,7 @@ button.photo-picker{
   scroll-padding-bottom:clamp(24px,3vh,38px);
 }
 .product-quantity{
-  width:142px;
+  width:100%;
   height:34px;
   display:grid;
   grid-template-columns:34px 1fr 34px;
@@ -1606,9 +1606,25 @@ button.photo-picker{
   color:#8b2330;
 }
 .product-actions .add:disabled{cursor:not-allowed;opacity:.55}
+.product-add-row{
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(72px,.85fr) minmax(0,1.15fr);
+  gap:7px;
+}
+.product-add-row .add{width:100%}
+.catalog .product-buy{display:grid;grid-template-columns:minmax(0,1fr) 104px}
+.catalog .product-actions{width:100%;min-width:0}
+.catalog .request-purchase{width:100%}
+.catalog .product-quantity{grid-template-columns:22px minmax(0,1fr) 22px}
+.catalog .product-quantity button{width:22px}
+.catalog .product-add-row .add{min-width:0;padding-right:5px;padding-left:5px;gap:4px}
+.catalog .product-add-row .add svg{width:16px;height:16px;flex:0 0 16px}
 
 @media(max-width:600px){
   .catalog-browser>.product-grid,
   .catalog-browser>.product-grid.expanded{padding-bottom:30px}
   .catalog .product-quantity{width:100%}
+  .catalog .product-buy{display:flex;flex-direction:column}
+  .catalog .product-price{width:100%}
 }
