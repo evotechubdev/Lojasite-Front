@@ -18,10 +18,14 @@
       "recomendado": true,
       "estrelas": 4,
       "beneficios": [
-        "Vendas pelo WhatsApp",
-        "Venda online pelo site",
+        "Vitrine online personalizada",
+        "Pedidos enviados pelo WhatsApp",
+        "Compra rápida sem login",
+        "Compra com carrinho por login",
+        "Sistema de Ponto de Vendas",
         "Até 10 acessos de funcionários",
-        "Até 100 clientes cadastrados"
+        "Até 100 clientes cadastrados",
+        "Até 1000 produtos no estoque"
       ]
     },
     {
@@ -30,10 +34,14 @@
       "a_partir_de": true,
       "estrelas": 5,
       "beneficios": [
-        "WhatsApp e venda online",
-        "Mais acessos para funcionários",
-        "Mais clientes cadastrados",
-        "Limites adaptados à sua demanda"
+        "Vitrine online personalizada",
+        "Pedidos enviados pelo WhatsApp",
+        "Compra rápida sem login",
+        "Compra com carrinho por login",
+        "Sistema de Ponto de Vendas",
+        "Limites de funcionários à sua demanda",
+        "Limites de clientes à sua demanda",
+        "Limites de produtos à sua demanda"
       ]
     }
   ]
