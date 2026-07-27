@@ -1421,4 +1421,33 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   }
 }
 
+/* Hierarquia da organização: header fixo, janelas abaixo e menu por cima. */
+.store-header{
+  position:fixed;
+  z-index:400;
+  top:0;
+  right:0;
+  left:0;
+}
+#app:has(.store-header)~#modal-root .modal-overlay{
+  z-index:350;
+  top:var(--store-header-height);
+}
+#app:has(.store-header)~#modal-root .system-window-modal{
+  height:100%;
+}
+#app:has(.store-header)~#modal-root .system-window-modal>.close{
+  top:calc(var(--store-header-height) + 22px);
+}
+.store-header .user-menu{
+  z-index:450;
+  top:12px!important;
+}
+
+@media(max-width:600px){
+  #app:has(.store-header)~#modal-root .system-window-modal>.close{
+    top:calc(var(--store-header-height) + 16px);
+  }
+}
+
 
