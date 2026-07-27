@@ -155,7 +155,16 @@ function renderApp() {
   $('#header-search').onkeydown = event => { if (event.key === 'Escape') $('#search-suggestions').hidden = true; };
   $('#more-products').onclick = () => { state.productsExpanded = !state.productsExpanded; renderProducts(); };
   const userMenu = $('#user-menu');
-  const setUserMenu = open => { if (!userMenu) return; userMenu.hidden = !open; $('#user-menu-button')?.setAttribute('aria-expanded', String(open)); };
+  const setUserMenu = open => {
+    if (!userMenu) return;
+    if (open) {
+      const headerBottom = Math.ceil(document.querySelector('.store-header')?.getBoundingClientRect().bottom || 0);
+      userMenu.style.top = `${headerBottom + 8}px`;
+      userMenu.style.maxHeight = `${Math.max(180, innerHeight - headerBottom - 20)}px`;
+    }
+    userMenu.hidden = !open;
+    $('#user-menu-button')?.setAttribute('aria-expanded', String(open));
+  };
   if (userMenu) { const close = document.createElement('button'); close.type = 'button'; close.className = 'user-menu-close'; close.setAttribute('aria-label', 'Fechar menu'); close.textContent = '×'; close.onclick = () => setUserMenu(false); const profile = document.createElement('button'); profile.type = 'button'; profile.className = 'menu-profile-avatar'; profile.setAttribute('aria-label', 'Alterar foto do perfil'); profile.innerHTML = userAvatar; profile.onclick = () => { setUserMenu(false); openProfilePhotoEditor(); }; const header = document.createElement('div'); header.className = 'user-menu-header'; header.append(close, profile, userMenu.querySelector(':scope > strong'), userMenu.querySelector(':scope > small')); userMenu.prepend(header); }
   $('#user-menu-button')?.addEventListener('click', event => { if(event.target.closest('.user-avatar')){event.stopPropagation();setUserMenu(false);openProfilePhotoEditor();return;}setUserMenu(userMenu.hidden); });
   document.querySelectorAll('[data-corporate]').forEach(button => button.onclick = () => { setUserMenu(false); openCorporate(button.dataset.corporate); });
