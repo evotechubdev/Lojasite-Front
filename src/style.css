@@ -1092,3 +1092,35 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   .portal-plan li{font-size:14px}
   .mobile-showcase-slide .portal-product-card{align-items:stretch}
 }
+
+/* Planos padronizados pela altura do maior e benefícios em uma linha. */
+.plans-section .portal-plans{max-width:1420px}
+.portal-plans.row{align-items:stretch}
+.portal-plans.row>[class*="col-"]{align-items:stretch}
+.portal-plans.row .portal-plan{
+  height:100%;
+  min-height:460px;
+  align-self:stretch;
+}
+.portal-plan li{
+  overflow-wrap:normal;
+  letter-spacing:-.02em;
+  white-space:nowrap;
+}
+
+@media(min-width:761px){
+  .plans-section{padding-right:max(20px,3vw);padding-left:max(20px,3vw)}
+  .portal-plan li{font-size:clamp(10px,.92vw,14px)}
+}
+
+@media(max-width:760px){
+  .plans-section .portal-plans{width:100%;max-width:560px}
+  .portal-plans.row>[class*="col-"]{align-items:stretch}
+  .portal-plans.row .portal-plan{
+    width:100%;
+    min-height:460px;
+    height:460px;
+    align-self:stretch;
+  }
+  .portal-plan li{font-size:clamp(9px,2.8vw,13px)}
+}
