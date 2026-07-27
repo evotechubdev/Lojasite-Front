@@ -1131,8 +1131,8 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   margin-bottom:28px;
 }
 .portal-plans.row .portal-plan{
-  height:350px;
-  min-height:350px;
+  height:440px;
+  min-height:440px;
 }
 .portal-plan li{
   font-size:13px;
@@ -1142,8 +1142,8 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
 @media(max-width:760px){
   .plans-section .portal-plans{margin-top:20px;margin-bottom:36px}
   .portal-plans.row .portal-plan{
-    height:350px;
-    min-height:350px;
+    height:440px;
+    min-height:440px;
   }
   .portal-plan li{font-size:12px}
 }
