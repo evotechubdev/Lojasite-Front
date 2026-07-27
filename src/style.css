@@ -1258,4 +1258,58 @@ footer{background:linear-gradient(120deg,#334a61 0%,#496b7c 52%,#668b91 100%)}fo
   }
 }
 
+/* Benefícios principais em duas colunas, com três itens de cada lado. */
+.portal-hero-checklist{
+  max-width:650px;
+  display:grid;
+  grid-auto-flow:column;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(3,auto);
+  gap:12px 28px;
+  margin:26px 0 30px;
+  padding:0;
+  list-style:none;
+}
+.portal-hero-checklist li{
+  min-width:0;
+  position:relative;
+  padding-left:25px;
+  color:#4f5663;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.4;
+}
+.portal-hero-checklist li::before{
+  content:"✓";
+  width:18px;
+  height:18px;
+  display:grid;
+  place-items:center;
+  position:absolute;
+  top:1px;
+  left:0;
+  border-radius:50%;
+  background:#dff5e8;
+  color:#128c4b;
+  font-size:11px;
+  font-weight:900;
+}
+
+@media(max-width:600px){
+  .portal-hero-checklist{
+    gap:10px 14px;
+    margin:22px 0 26px;
+    text-align:left;
+  }
+  .portal-hero-checklist li{
+    padding-left:21px;
+    font-size:12px;
+  }
+  .portal-hero-checklist li::before{
+    width:16px;
+    height:16px;
+    font-size:10px;
+  }
+}
+
 
