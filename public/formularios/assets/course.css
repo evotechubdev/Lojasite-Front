@@ -50,3 +50,19 @@ body{background:#fff}
 /* Duas modalidades disponíveis nesta campanha. */
 .plans{max-width:820px;grid-template-columns:repeat(2,minmax(0,1fr));margin-right:auto;margin-left:auto}
 @media(max-width:820px){.plans{grid-template-columns:1fr}}
+
+/* Reserva sempre em uma coluna: prioridade para telas de celular. */
+.register-grid{width:min(100%,680px);display:block;margin-right:auto;margin-left:auto}
+.register-intro{margin:0 auto 24px;text-align:center}
+.register-intro span{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.register-intro h2{margin:8px 0 9px;color:var(--navy);font:800 clamp(27px,4vw,38px)/1.15 Sora,Manrope,sans-serif;letter-spacing:-.04em}
+.register-intro p{max-width:570px;margin:0 auto;color:var(--muted);font-size:14px;line-height:1.65}
+.form-card{width:100%;max-width:680px;margin:0 auto;overflow:hidden}
+.option{min-width:0}
+.option>span{min-width:0}
+.option strong,.option small{overflow-wrap:anywhere}
+@media(max-width:520px){
+  .register-grid{width:100%}.register-intro{margin-bottom:18px;padding:0 4px}.register-intro h2{font-size:27px}
+  .form-card{width:100%;padding:20px 15px}.option{width:100%;grid-template-columns:20px minmax(0,1fr);gap:9px}
+  .option b{grid-column:2;justify-self:start}.submit{white-space:normal;padding:10px 12px}
+}
