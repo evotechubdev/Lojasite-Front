@@ -25,13 +25,18 @@ function publicFile(pathname) {
   catch { return null; }
   const candidate = resolve(root, decoded);
   if (candidate !== root && !candidate.startsWith(`${root}${sep}`)) return null;
-  if (!existsSync(candidate) || !statSync(candidate).isFile()) return null;
-  return candidate;
+  if (!existsSync(candidate)) return null;
+  if (statSync(candidate).isFile()) return candidate;
+  const directoryIndex = join(candidate, 'index.html');
+  return existsSync(directoryIndex) && statSync(directoryIndex).isFile() ? directoryIndex : null;
 }
 
 createServer((request, response) => {
   const url = new URL(request.url || '/', 'http://localhost');
-  const requestedFile = publicFile(url.pathname);
+  const publicAlias = url.pathname.startsWith('/public/formularios/')
+    ? url.pathname.replace(/^\/public/, '')
+    : url.pathname;
+  const requestedFile = publicFile(publicAlias);
   const acceptsHtml = String(request.headers.accept || '').includes('text/html');
   const spaRequest = request.method === 'GET' && acceptsHtml && !extname(url.pathname);
   const file = requestedFile || (spaRequest ? join(root, 'index.html') : null);
@@ -43,7 +48,7 @@ createServer((request, response) => {
   response.writeHead(200, {
     'Content-Type': contentTypes[extname(file).toLowerCase()] || 'application/octet-stream',
     'Cache-Control': file.endsWith('index.html') || file.endsWith('config-pub-sistema.json') ? 'no-store' : 'public, max-age=31536000, immutable',
-    'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://lojasite-back.onrender.com; frame-src https://www.google.com; form-action 'self'; upgrade-insecure-requests",
+    'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://lojasite-back.onrender.com https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com wss://*.firebaseio.com; frame-src https://www.google.com https://*.firebaseapp.com; form-action 'self'; upgrade-insecure-requests",
     'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
     'Permissions-Policy': 'camera=(self), geolocation=(), microphone=()',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
