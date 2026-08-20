@@ -7,8 +7,8 @@ const database = getFirestore(app);
 const form = document.querySelector('#course-form');
 const feedback = document.querySelector('#feedback');
 const submit = form.querySelector('button[type="submit"]');
-const labels = { frontend: 'Interface Simples (Frontend)', frontend_firebase: 'Frontend + Firebase', completo: 'Site + Firebase + Automação' };
-const prices = { frontend: 100, frontend_firebase: 200, completo: 300 };
+const labels = { frontend: 'Frontend — 1 dia com site publicado', frontend_firebase: 'Frontend + Banco de dados Firebase — 1 dia com site publicado' };
+const prices = { frontend: 100, frontend_firebase: 200 };
 
 function formatWhatsapp(value) {
   const digits = value.replace(/\D/g, '').slice(0, 11);
