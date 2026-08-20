@@ -14,6 +14,12 @@ export default defineConfig({
       copyFileSync(`${root}dist/index.html`, `${root}dist/404.html`);
       mkdirSync(`${root}dist/evotechub`, { recursive: true });
       copyFileSync(`${root}dist/index.html`, `${root}dist/evotechub/index.html`);
+      // Formulários públicos são páginas independentes, não slugs de lojas.
+      // Mantém tanto /formularios/... quanto /public/formularios/... acessíveis.
+      if (existsSync(`${root}dist/formularios`)) {
+        mkdirSync(`${root}dist/public`, { recursive: true });
+        cpSync(`${root}dist/formularios`, `${root}dist/public/formularios`, { recursive: true });
+      }
       if (existsSync(`${root}imagens_org`)) cpSync(`${root}imagens_org`, `${root}dist/imagens_org`, { recursive: true });
     }
   }]
